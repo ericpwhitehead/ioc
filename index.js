@@ -8,15 +8,15 @@ var mysql = require('mysql2'),
 
 app.use(bodyParser.json());
 
-var connection = mysql.createConnection({
-  host: '50.87.137.25',
-  user: 'iocdevco_eric0',
-  password: 'brick8',
-  //database: 'iocdevco_iocdev'
-  database: 'iocdevco_iocliv'
-})
+// var connection = mysql.createConnection({
+//   host: '50.87.137.25',
+//   user: 'iocdevco_eric0',
+//   password: 'brick8',
+//   //database: 'iocdevco_iocdev'
+//   database: 'iocdevco_iocliv'
+// })
 
-console.log(process.env.FIXIE_URL);
+// console.log(process.env.FIXIE_URL);
 
 
 var remote_options = {
@@ -164,6 +164,6 @@ app.post('/', (req, res) => {
 
 
 
-app.listen(process.env.PORT || 3001, () => console.log('listening on'+ process.env.PORT))
+app.listen(process.env.PORT || 3001, () => console.log('listening on '+ process.env.PORT))
 
 
