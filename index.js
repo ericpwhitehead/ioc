@@ -92,6 +92,7 @@ app.post('/', (req, res) => {
 		
 		dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value], function(err, result) {
       			if (err) throw err
+      				console.log('result', result)
 			      result.forEach(function(row) {
 			      	const userId = row.entity_id;
 				    var dateString = postBody['field_start_date:end'];
