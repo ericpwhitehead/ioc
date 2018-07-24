@@ -13,6 +13,14 @@ var connection = mysql.createConnection({
   database: 'iocdevco_iocliv'
 })
 
+console.log(process.env.FIXIE_URL);
+
+
+	connection.connect(function(err) {
+	  if (err) throw err
+	  console.log('You are now connected...')
+	})
+
 app.get('/', (req, res) => {
 	res.send('App is up and running');
 })
@@ -24,10 +32,6 @@ app.post('/test', (req, res) => {
 app.post('/', (req, res) => {
 	console.log('post came in: ', req.body);
 
-	connection.connect(function(err) {
-	  if (err) throw err
-	  console.log('You are now connected...')
-	})
 
 	const postBody = req.body
 	var len = Object.keys(postBody).length;
