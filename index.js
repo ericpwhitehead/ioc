@@ -56,7 +56,7 @@ app.post('/test', (req, res) => {
 app.post('/', (req, res) => {
 	console.log('post came in: ', req.body);
 
-	dbConnection.query('SELECT * FROM "users";', function(err, rows, fields) {
+	dbConnection.query('SELECT * FROM users;', function(err, rows, fields) {
 	    if (err) throw err;
 
 	    console.log('Result: ', rows);
