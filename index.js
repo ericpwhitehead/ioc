@@ -138,8 +138,9 @@ app.post('/', (req, res) => {
 
 var remote_options = {
     host:'50.87.137.25',
-    port: 8080
+    port: 3306
 };
+
 
 var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL),
     auth = proxy.auth,
