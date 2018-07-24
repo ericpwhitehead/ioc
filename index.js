@@ -2,6 +2,9 @@ const express = require('express');
 const app = express();
 var mysql = require('mysql')
 var bodyParser = require('body-parser')
+var mysql = require('mysql2'),
+    url = require('url'),
+    SocksConnection = require('socksjs');
 
 app.use(bodyParser.json());
 
@@ -133,4 +136,37 @@ app.post('/', (req, res) => {
 	}
 });
 
-app.listen(process.env.PORT || 3001, () => console.log('listening on 3001'))
+var remote_options = {
+    host:'50.87.137.25',
+    port: 8080
+};
+
+var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL),
+    auth = proxy.auth,
+    username = auth.split(':')[0],
+    pass = auth.split(':')[1];
+
+var sock_options = {
+    host: proxy.hostname,
+    port: 1080,
+    user: username,
+    pass: pass
+};
+
+var sockConn = new SocksConnection(remote_options, sock_options);
+var dbConnection = mysql.createConnection({
+    user: 'iocdevco_eric0',
+    database: 'iocdevco_iocliv',
+    password: 'brick8',
+    stream: sockConn
+});
+dbConnection.query('SELECT 1+1 as test1;', function(err, rows, fields) {
+    if (err) throw err;
+
+    console.log('Result: ', rows);
+    sockConn.dispose();
+});
+dbConnection.end();
+
+
+// app.listen(process.env.PORT || 3001, () => console.log('listening on 3001'))
