@@ -92,7 +92,7 @@ app.post('/', (req, res) => {
   //     			if (err) throw err
   //     				console.log('result from query', result);
 		// 	      result.forEach(function(row) {
-			      	const userId = row.entity_id;
+			      	//const userId = row.entity_id;
 				    var dateString = postBody['field_start_date:end'];
 					var newDate = new Date(dateString);
 					var year = newDate.getFullYear();
