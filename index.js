@@ -127,7 +127,7 @@ app.post('/', (req, res) => {
 
 					// Update status
 					if (postBody.status) {
-						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uuid` = ?',[
+						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[
 						postBody.status, userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
