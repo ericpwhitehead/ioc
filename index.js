@@ -62,8 +62,6 @@ app.post('/test', (req, res) => {
 // 	});
 app.post('/', (req, res) => {
 	console.log('post came in: ', req.body);
-
-	
 	const postBody = req.body
 	var len = Object.keys(postBody).length;
 	console.log(len)
@@ -90,10 +88,10 @@ app.post('/', (req, res) => {
 		console.log(field_infusionsoft_id_value)
 		console.log('it is a renewal or lapsed')
 		
-		dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value], function(err, result) {
-      			if (err) throw err
-      				console.log('result from query', result);
-			      result.forEach(function(row) {
+		// dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value], function(err, result) {
+  //     			if (err) throw err
+  //     				console.log('result from query', result);
+		// 	      result.forEach(function(row) {
 			      	const userId = row.entity_id;
 				    var dateString = postBody['field_start_date:end'];
 					var newDate = new Date(dateString);
@@ -107,27 +105,27 @@ app.post('/', (req, res) => {
 
 
 					// update member type if it is passed
-					if (postBody['field_member_type:label']) {
-						dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[
-						postBody['field_member_type:label'], userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  	sockConn.dispose();
-					  });
-						dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[
-						postBody['field_member_type:label'], userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					    sockConn.dispose();
-					  });
-					}
+					// if (postBody['field_member_type:label']) {
+					// 	dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[
+					// 	postBody['field_member_type:label'], userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   	sockConn.dispose();
+					//   });
+					// 	dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[
+					// 	postBody['field_member_type:label'], userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//     sockConn.dispose();
+					//   });
+					// }
 
 					// Update status
 					if (postBody.status) {
 						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `entity_id` = ?',[
-						postBody.status, userId], function (err, result) {
+						postBody['status'], postBody['field_infusionsoft_id']], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
@@ -136,39 +134,39 @@ app.post('/', (req, res) => {
 					}
 
 					// Update date
-					dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
-						newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					    sockConn.dispose();
-					  });
-					dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
-						newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
-					  	sockConn.dispose();
-					  });
+					// dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
+					// 	newEnd, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//     sockConn.dispose();
+					//   });
+					// dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
+					// 	newEnd, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
+					//   	sockConn.dispose();
+					//   });
 
 
 				  // clear cache
-				  dbConnection.query('SELECT * FROM `users` WHERE uid = ?',[userId], function(err, result2) {
-  					if (err) throw err
-				      result2.forEach(function(row) {
-				      	console.log(row.name);
-				      	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
-								if (err) throw err
-								console.log(result3);
-							sockConn.dispose();
-			      			})
-					  })
-	 			  })
+				  // dbConnection.query('SELECT * FROM `users` WHERE uid = ?',[userId], function(err, result2) {
+  				// 	if (err) throw err
+				  //     result2.forEach(function(row) {
+				  //     	console.log(row.name);
+				  //     	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
+						// 		if (err) throw err
+						// 		console.log(result3);
+						// 	sockConn.dispose();
+			   //    			})
+					 //  })
+	 			 //  })
 
 				  res.json({message: 'received'})
-				})
+		// 		})
 
-		});
+		// });
 	}
 });
 
