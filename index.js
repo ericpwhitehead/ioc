@@ -40,7 +40,7 @@ var sock_options = {
 var sockConn = new SocksConnection(remote_options, sock_options);
 var dbConnection = mysql.createConnection({
     user: 'iocdevco_eric0',
-    database: 'iocdevco_ioc',
+    database: 'iocdevco_iocliv',
     password: 'brick8',
     stream: sockConn
 });
