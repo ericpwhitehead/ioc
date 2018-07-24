@@ -15,11 +15,11 @@ var connection = mysql.createConnection({
 
 app.get('/', (req, res) => {
 	res.send('App is up and running');
-}
+})
 
 app.post('/test', (req, res) => {
 	res.json({message: 'got it'})
-}
+})
 
 app.post('/', (req, res) => {
 	console.log('post came in: ', req.body);
