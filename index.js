@@ -94,7 +94,7 @@ app.post('/', (req, res) => {
       			if (err) throw err
       				console.log('result', result)
 			      result.forEach(function(row) {
-			      	console.log('this row ', row.TextRow);
+			      	console.log('this row ', row.entity_id);
 			      	const userId = row.entity_id;
 				    var dateString = postBody['field_start_date:end'];
 					var newDate = new Date(dateString);
