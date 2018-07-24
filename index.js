@@ -18,6 +18,7 @@ var connection = mysql.createConnection({
 //NEED EXAMPLE STATUS AND MEMBER TYPE
 
 app.post('/', (req, res) => {
+	console.log('post came in: ', req.body);
 
 	connection.connect(function(err) {
 	  if (err) throw err
