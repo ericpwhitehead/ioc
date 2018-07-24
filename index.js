@@ -13,9 +13,13 @@ var connection = mysql.createConnection({
   database: 'iocdevco_iocliv'
 })
 
+app.get('/', (req, res) => {
+	res.send('App is up and running');
+}
 
-
-//NEED EXAMPLE STATUS AND MEMBER TYPE
+app.post('/test', (req, res) => {
+	res.json({message: 'got it'})
+}
 
 app.post('/', (req, res) => {
 	console.log('post came in: ', req.body);
@@ -125,4 +129,4 @@ app.post('/', (req, res) => {
 	}
 });
 
-app.listen(process.env.PORT || 3001, () => console.log('listening on 3000'))
+app.listen(process.env.PORT || 3001, () => console.log('listening on 3001'))
