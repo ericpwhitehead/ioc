@@ -75,6 +75,7 @@ app.post('/', upload.fields([]), (req, res) => {
 	const postBody = req.body
 	var len = Object.keys(postBody).length;
 	console.log(len)
+	console.log('postBody', postBody)
 
 	// if(postBody.hasOwnProperty('field_sex') && len > 4){
 	// 	console.log('this is a new member')
