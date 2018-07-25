@@ -142,8 +142,12 @@ app.post('/', (req, res) => {
 
 					// Update status
 					if (postBody.status) {
+						console.log('we got status: ', postBody.status)
+						// if (postBody.status === 'Active') {
+
+						// }
 						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[
-						postBody.status, userId], function (err, result) {
+						1, userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in users");
