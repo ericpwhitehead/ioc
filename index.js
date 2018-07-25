@@ -41,7 +41,7 @@ var sock_options = {
 
 var sockConn = new SocksConnection(remote_options, sock_options);
 
-	var dbConnection = mysql.createConnection({
+var dbConnection = mysql.createConnection({
     user: 'iocdevco_eric0',
     database: 'iocdevco_iocliv',
     password: 'brick8',
@@ -103,7 +103,8 @@ app.post('/', (req, res) => {
 
 	if (len <= 5) {
 		var field_infusionsoft_id_value = postBody.field_infusionsoft_id;
-		console.log(field_infusionsoft_id_value)
+		console.log('id', field_infusionsoft_id_value);
+		console.log('type', typeof field_infusionsoft_id_value);
 		console.log('it is a renewal or lapsed')
 		
 		dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value], function(err, result) {
