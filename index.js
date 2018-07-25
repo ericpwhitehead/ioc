@@ -39,6 +39,13 @@ var sock_options = {
 
 var sockConn = new SocksConnection(remote_options, sock_options);
 
+	var dbConnection = mysql.createConnection({
+    user: 'iocdevco_eric0',
+    database: 'iocdevco_iocliv',
+    password: 'brick8',
+    stream: sockConn
+});
+
 
 app.get('/', (req, res) => {
 	res.send('App is up and running');
@@ -56,12 +63,6 @@ app.post('/test', (req, res) => {
 // 	    sockConn.dispose();
 // 	});
 app.post('/', (req, res) => {
-	var dbConnection = mysql.createConnection({
-    user: 'iocdevco_eric0',
-    database: 'iocdevco_iocliv',
-    password: 'brick8',
-    stream: sockConn
-});
 
 	console.log('post came in: ', req.body);
 
