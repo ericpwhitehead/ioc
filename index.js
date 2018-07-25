@@ -81,10 +81,14 @@ app.post('/', (req, res) => {
 	if(len > 4){
 		console.log('this is a new member')
 		rand = Math.floor(Math.random()*90000) + 10000;
-		console.log(rand)
+		console.log('this random number' rand)
 		dbConnection.query('INSERT into `users` (uid, name, pass, mail) VALUES (?,?,?,?)',[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail], function(err, result) {
-			console.log('result', result)
-      			if (err) throw err
+			console.log('result', result);
+
+      			if (err) {
+      				throw err c
+      				console.log('error', err);
+      			}
 			      result.forEach(function(row) {
 			      	console.log('this row', row);
 			      	sockConn.dispose();
