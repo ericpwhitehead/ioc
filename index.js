@@ -117,14 +117,12 @@ app.post('/', (req, res) => {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  	sockConn.dispose();
 					  });
 						dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[
 						postBody['field_member_type:label'], userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					    sockConn.dispose();
 					  });
 					}
 
@@ -135,7 +133,6 @@ app.post('/', (req, res) => {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in users");
-					  	sockConn.dispose();
 					  });
 					}
 
@@ -145,14 +142,12 @@ app.post('/', (req, res) => {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					    sockConn.dispose();
 					  });
 					dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
 						newEnd, userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
 					    console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
-					  	sockConn.dispose();
 					  });
 
 
@@ -165,12 +160,11 @@ app.post('/', (req, res) => {
 				      			console.log('cache cleared', result3)
 								if (err) throw err
 								console.log(result3);
-							sockConn.dispose();
 			      			})
 					  })
 	 			  })
-				sockConn.dispose();
-				  res.json({message: 'received'})
+					sockConn.dispose();
+				  	res.json({message: 'received'})
 				})
 
 		});
