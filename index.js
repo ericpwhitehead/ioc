@@ -6,6 +6,10 @@ var mysql = require('mysql2'),
     url = require('url'),
     SocksConnection = require('socksjs');
 
+let multer = require('multer');
+let upload = multer();
+
+
 app.use(bodyParser.json());
 
 // var connection = mysql.createConnection({
@@ -62,7 +66,8 @@ app.post('/test', (req, res) => {
 // 	    console.log('Result: ', rows);
 // 	    sockConn.dispose();
 // 	});
-app.post('/', (req, res) => {
+
+app.post('/', upload.fields([]), (req, res) => {
 
 	console.log('post came in: ', req.body);
 
