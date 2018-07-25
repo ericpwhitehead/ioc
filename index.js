@@ -68,7 +68,7 @@ app.post('/test', (req, res) => {
 // 	});
 
 app.post('/', upload.fields([]), (req, res) => {
-
+	console.log('content type passed', req.headers['content-type']);
 	console.log('post came in: ', req.body);
 
 	
