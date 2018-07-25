@@ -95,7 +95,7 @@ app.post('/', (req, res) => {
 
 	
 
-	if (len <= 5 && postBody.hasOwnProperty('status')) {
+	if (len <= 5) {
 		var field_infusionsoft_id_value = postBody.field_infusionsoft_id;
 		console.log(field_infusionsoft_id_value)
 		console.log('it is a renewal or lapsed')
