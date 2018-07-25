@@ -168,6 +168,9 @@ app.post('/', (req, res) => {
 				})
 
 		});
+	} else {
+		sockConn.dispose();
+		res.json({message: 'got the post but did not update the database'})
 	}
 });
 
