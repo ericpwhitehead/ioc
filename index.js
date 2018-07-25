@@ -38,12 +38,7 @@ var sock_options = {
 };
 
 var sockConn = new SocksConnection(remote_options, sock_options);
-var dbConnection = mysql.createConnection({
-    user: 'iocdevco_eric0',
-    database: 'iocdevco_iocliv',
-    password: 'brick8',
-    stream: sockConn
-});
+
 
 app.get('/', (req, res) => {
 	res.send('App is up and running');
@@ -61,6 +56,13 @@ app.post('/test', (req, res) => {
 // 	    sockConn.dispose();
 // 	});
 app.post('/', (req, res) => {
+	var dbConnection = mysql.createConnection({
+    user: 'iocdevco_eric0',
+    database: 'iocdevco_iocliv',
+    password: 'brick8',
+    stream: sockConn
+});
+
 	console.log('post came in: ', req.body);
 
 	
@@ -131,7 +133,7 @@ app.post('/', (req, res) => {
 						postBody.status, userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					    console.log(result.affectedRows + " record(s) updated in users");
 					  	sockConn.dispose();
 					  });
 					}
@@ -159,13 +161,14 @@ app.post('/', (req, res) => {
 				      result2.forEach(function(row) {
 				      	console.log(row.name);
 				      	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
+				      			console.log('cache cleared', result3)
 								if (err) throw err
 								console.log(result3);
 							sockConn.dispose();
 			      			})
 					  })
 	 			  })
-
+				sockConn.dispose();
 				  res.json({message: 'received'})
 				})
 
