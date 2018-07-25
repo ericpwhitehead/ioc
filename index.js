@@ -6,8 +6,6 @@ var mysql = require('mysql2'),
     url = require('url'),
     SocksConnection = require('socksjs');
 
-let multer = require('multer');
-let upload = multer();
 
 
 app.use(bodyParser.json());
@@ -67,7 +65,10 @@ app.post('/test', (req, res) => {
 // 	    sockConn.dispose();
 // 	});
 
-app.post('/', upload.fields([]), (req, res) => {
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.post('/', (req, res) => {
+
 	console.log('content type passed', req.headers['content-type']);
 	console.log('post came in: ', req.body);
 
