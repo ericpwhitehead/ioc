@@ -72,8 +72,8 @@ app.post('/', (req, res) => {
 	console.log('content type passed', req.headers['content-type']);
 	console.log('post came in: ', req.body);
 
-	
-	const postBody = JSON.parse(req.body);
+	var postBody = req.body;
+	console.log('type', typeof postBody);
 	var len = Object.keys(postBody).length;
 	console.log(len)
 	console.log('postBody', postBody)
