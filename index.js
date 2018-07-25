@@ -73,7 +73,7 @@ app.post('/', (req, res) => {
 	console.log('post came in: ', req.body);
 
 	
-	const postBody = req.body
+	const postBody = JSON.parse(req.body);
 	var len = Object.keys(postBody).length;
 	console.log(len)
 	console.log('postBody', postBody)
