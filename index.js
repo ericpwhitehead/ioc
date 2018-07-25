@@ -86,7 +86,7 @@ app.post('/', (req, res) => {
 			console.log('result', result);
 
       			if (err) {
-      				throw err c
+      				throw err;
       				console.log('error', err);
       			}
 			      result.forEach(function(row) {
