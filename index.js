@@ -89,7 +89,7 @@ app.post('/', (req, res) => {
 	var len = Object.keys(postBody).length;
 	console.log(len)
 	console.log('postBody', postBody)
-
+	console.log('post body id', postBody.field_infusionsoft_id)
 	// if(len > 4){
 	// 	console.log('this is a new member')
 	// 	rand = Math.floor(Math.random()*90000) + 10000;
@@ -114,12 +114,9 @@ app.post('/', (req, res) => {
 	
 
 	if (len <= 5) {
-		var field_infusionsoft_id_value = postBody.field_infusionsoft_id;
-		console.log('id', field_infusionsoft_id);
-		console.log('type', typeof field_infusionsoft_id_value);
 		console.log('it is a renewal or lapsed')
 		
-		renewingUser(req.body.field_infusionsoft_id)
+		renewingUser(postBody.field_infusionsoft_id)
 			.then((res) => {
 				console.log('first promise result', res)
 			})
