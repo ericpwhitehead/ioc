@@ -164,7 +164,6 @@ app.post('/', (req, res) => {
 					var newEnd = c.toISOString();
 					console.log(newEnd);
 
-					console.log('this userid', userId);
 
 			      	console.log('entity', entity);
 
