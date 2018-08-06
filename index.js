@@ -130,7 +130,7 @@ app.post('/', (req, res) => {
 						dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  };
+					  });
 						dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
 					    if (err) throw err;
 					    console.log(result)
