@@ -123,48 +123,9 @@ app.post('/', (req, res) => {
 					var newEnd = c.toISOString();
 					console.log(newEnd);
 					var label = postBody['field_member_type:label'];
+					console.log('this userid', userId);
 
-
-					// update member type if it is passed
-					if (label) {
-						dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  });
-						dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  });
-					}
-
-					// Update status
-					if (postBody['status']) {
-						console.log('we got status: ', postBody.status)
-						// if (postBody.status === 'Active') {
-
-						// }
-						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in users");
-					  });
-					}
-
-					// Update date
-					dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  });
-					dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
-					  });
-
-
-				  // clear cache
+					// clear cache
 				  dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId], function(err, result2) {
   					if (err) throw err
 				      result2.forEach(function(row) {
@@ -175,10 +136,54 @@ app.post('/', (req, res) => {
 								console.log(result3);
 			      			})
 					  })
+				  
 	 			  })
+
+
+					// update member type if it is passed
+					// if (label) {
+					// 	dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   });
+					// 	dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   });
+					// }
+
+					// Update status
+					if (postBody['status']) {
+						console.log('we got status: ', postBody.status)
+						// if (postBody.status === 'Active') {
+
+						// }
+						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, userId], function (err, statusUpdate) {
+					    if (err) throw err;
+					    console.log(statusUpdate)
+					    console.log(statusUpdate.affectedRows + " record(s) updated in users");
+					  });
+					}
+
+					// Update date
+					dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, datStart) {
+					    if (err) throw err;
+					    console.log(datStart)
+					    console.log(datStart.affectedRows + " record(s) updated in field_data_field_start_date");
+					  });
+					dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, revisionStart) {
+					    if (err) throw err;
+					    console.log(revisionStart)
+					    console.log(revisionStart.affectedRows + " record(s) updated in field_revision_field_start_date");
+					  });
+
+
+
 					sockConn.dispose();
 				  	res.json({message: 'received'})
-				})
+
+				}) //end forEach
 
 		});
 	} else {
