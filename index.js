@@ -67,6 +67,17 @@ app.post('/test', (req, res) => {
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
+function renewingUser(userId) {
+	var promise = new Promise(function(resolve, reject){
+      dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value],  function(err, infusionsoftData) {
+					console.log('data from first query', infusionsoftData);
+					console.log('zero index', infusionsoftData[0])
+					console.log('could it be this?', infusionsoftData[0].entity_id);
+					resolve(infusionsoftData[0]);
+   });
+   return promise;
+}
+
 app.post('/', (req, res) => {
 
 	console.log('content type passed', req.headers['content-type']);
@@ -106,26 +117,34 @@ app.post('/', (req, res) => {
 		console.log('id', field_infusionsoft_id_value);
 		console.log('type', typeof field_infusionsoft_id_value);
 		console.log('it is a renewal or lapsed')
-		return dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value]).then((infusionsoftData) => {
-					console.log('data from first query', infusionsoftData);
-					console.log('zero index', infusionsoftData[0])
-					console.log('could it be this?', infusionsoftData[0].entity_id);
-			      infusionsoftData.forEach(function(row) {
-			      	console.log('this row ', row.entity_id);
-			      	const userId = row.entity_id;
-				    var dateString = postBody['field_start_date:end'];
-					var newDate = new Date(dateString);
-					var year = newDate.getFullYear();
-					var month = newDate.getMonth()+1;
-					var day = newDate.getDate();
-					var newYear = year+1
-					var c = new Date(month+'/'+day+'/'+newYear);
-					var newEnd = c.toISOString();
-					console.log(newEnd);
-					var label = postBody['field_member_type:label'];
-					console.log('this userid', userId);
+		
+		renewingUser(field_infusionsoft_id_value)
+			.then((res) => {
+				console.log('first promise result', res)
+			})
+			.catch((err) => {
+				console.log('got an error', err)
+			})
+		// return dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value]).then((infusionsoftData) => {
+		// 			console.log('data from first query', infusionsoftData);
+		// 			console.log('zero index', infusionsoftData[0])
+		// 			console.log('could it be this?', infusionsoftData[0].entity_id);
+		// 	      infusionsoftData.forEach(function(row) {
+		// 	      	console.log('this row ', row.entity_id);
+		// 	      	const userId = row.entity_id;
+		// 		    var dateString = postBody['field_start_date:end'];
+		// 			var newDate = new Date(dateString);
+		// 			var year = newDate.getFullYear();
+		// 			var month = newDate.getMonth()+1;
+		// 			var day = newDate.getDate();
+		// 			var newYear = year+1
+		// 			var c = new Date(month+'/'+day+'/'+newYear);
+		// 			var newEnd = c.toISOString();
+		// 			console.log(newEnd);
+		// 			var label = postBody['field_member_type:label'];
+		// 			console.log('this userid', userId);
 
-				})
+		// 		})
 
 					// clear cache
 				  //  return dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId])
@@ -140,10 +159,10 @@ app.post('/', (req, res) => {
 				  //     // 			console.log('cache cleared', clearedCache)
 				  //     // 			sockConn.dispose();
 				  // 				// res.json({message: 'received'})
-			       			})
-					  .catch((err) => {
-					  	console.log('err', err)
-					  })
+			    //    			})
+					  // .catch((err) => {
+					  // 	console.log('err', err)
+					  // })
 				  // }
 	 			  //})
 
