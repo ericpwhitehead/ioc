@@ -75,7 +75,7 @@ function clearCache(id) {
 			  dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [id], function(err, result2) {
 					if (err) {
 						console.log('err', err)
-						reject(err)
+						return reject(err)
 					}
 
 					console.log('result2', result2)
@@ -85,7 +85,7 @@ function clearCache(id) {
 			      			console.log('cache cleared', result3)
 							if (err) throw err
 							console.log('result3', result3);
-							resolve(result3)
+							return resolve(result3)
 		      			})
 				  })
 			  
