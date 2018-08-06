@@ -194,7 +194,7 @@ app.post('/', (req, res) => {
 					//     console.log(revisionStart)
 					//     console.log(revisionStart.affectedRows + " record(s) updated in field_revision_field_start_date");
 					//   });
-					updateStatus(entity).
+					updateStatus(entity)
 					.then((resp) => {
 						console.log('update Status response', resp)
 					})
