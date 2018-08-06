@@ -69,6 +69,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 function renewingUser(userId) {
 	var promise = new Promise(function(resolve, reject){
+		console.log('this userId', userId);
+		console.log(typeof userId);
       dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[userId],  function(err, infusionsoftData) {
 					console.log('data from first query', infusionsoftData);
 					console.log('zero index', infusionsoftData[0])
