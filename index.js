@@ -128,7 +128,7 @@ app.post('/', (req, res) => {
 
 					sockConn.dispose();
 				  	res.json({message: 'received'})
-
+			})
 
 					// clear cache
 				  // dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId], function(err, result2) {
