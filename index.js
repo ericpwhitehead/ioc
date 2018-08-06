@@ -94,6 +94,24 @@ function clearCache(id) {
 	return myPromise;
 }
 
+
+function updateStatus(id) {
+	console.log('entity id passed from first query', id);
+	var myPromise = new Promise(function(resolve, reject){
+	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, userId], function (err, statusUpdate) {
+					    if (err) {
+					    	console.log('error', err)
+					    	reject(err);
+					    }
+					    console.log(statusUpdate)
+					    console.log(statusUpdate.affectedRows + " record(s) updated in users");
+					    resolve(statusUpdate)
+					  });
+					}
+		})
+	return myPromise;
+}
+
 app.post('/', (req, res) => {
 
 	console.log('content type passed', req.headers['content-type']);
@@ -138,62 +156,23 @@ app.post('/', (req, res) => {
       			if (err) throw err
       				console.log('result', result)
 			      	var entity = result[0].entity_id;
+			      	var dateString = postBody['field_start_date:end'];
+					var newDate = new Date(dateString);
+					var year = newDate.getFullYear();
+					var month = newDate.getMonth()+1;
+					var day = newDate.getDate();
+					var newYear = year+1
+					var c = new Date(month+'/'+day+'/'+newYear);
+					var newEnd = c.toISOString();
+					console.log(newEnd);
+
+					console.log('this userid', userId);
 
 			      	console.log('entity', entity);
-			      	clearCache(entity)
-			      	.then((resp) => {
-			      		console.log(resp);
-			      	})
-			      	.catch((err) => {
-			      		console.log(resp);
-			      	})
-			  //     	const userId = row.entity_id;
-				 //    var dateString = postBody['field_start_date:end'];
-					// var newDate = new Date(dateString);
-					// var year = newDate.getFullYear();
-					// var month = newDate.getMonth()+1;
-					// var day = newDate.getDate();
-					// var newYear = year+1
-					// var c = new Date(month+'/'+day+'/'+newYear);
-					// var newEnd = c.toISOString();
-					// console.log(newEnd);
-					// var label = postBody['field_member_type:label'];
-					// console.log('this userid', userId);
 
 
-					//sockConn.dispose();
-				  	res.json({message: 'received'})
-			})
 
-					// clear cache
-				  // dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId], function(err, result2) {
-  				// 	if (err) throw err
-				  //     result2.forEach(function(row) {
-				  //     	console.log('clear cache for...', row.name);
-				  //     	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
-				  //     			console.log('cache cleared', result3)
-						// 		if (err) throw err
-						// 		console.log(result3);
-			   //    			})
-					 //  })
-				  
-	 			 //  })
-
-
-					// update member type if it is passed
-					// if (label) {
-					// 	dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
-					//     if (err) throw err;
-					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					//   });
-					// 	dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
-					//     if (err) throw err;
-					//     console.log(result)
-					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					//   });
-					// }
-
-					// Update status
+			      	// Update status
 					// if (postBody['status']) {
 					// 	console.log('we got status: ', postBody.status)
 					// 	// if (postBody.status === 'Active') {
@@ -217,6 +196,41 @@ app.post('/', (req, res) => {
 					//     console.log(revisionStart)
 					//     console.log(revisionStart.affectedRows + " record(s) updated in field_revision_field_start_date");
 					//   });
+					updateStatus(entity).
+					.then((resp) => {
+						console.log('update Status response', resp)
+					})
+					.catch((err) => {
+						console.log('error', err);
+					})
+			      	// clearCache(entity)
+			      	// .then((resp) => {
+			      	// 	console.log(resp);
+			      	// })
+			      	// .catch((err) => {
+			      	// 	console.log(resp);
+			      	// })
+
+				  	res.json({message: 'received'})
+			})
+
+					
+
+
+					// update member type if it is passed
+					// if (label) {
+					// 	dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   });
+					// 	dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   });
+					// }
+
+					
 
 
 
