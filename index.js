@@ -106,7 +106,7 @@ app.post('/', (req, res) => {
 		console.log('id', field_infusionsoft_id_value);
 		console.log('type', typeof field_infusionsoft_id_value);
 		console.log('it is a renewal or lapsed')
-		return connection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value]).then((infusionsoftData) => {
+		return dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value]).then((infusionsoftData) => {
 					console.log('data from first query', infusionsoftData);
 					console.log('zero index', infusionsoftData[0])
 					console.log('could it be this?', infusionsoftData[0].entity_id);
