@@ -127,48 +127,53 @@ app.post('/', (req, res) => {
 
 					// update member type if it is passed
 					if (label) {
-						dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
+						dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?;UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?;UPDATE `users` SET `status` = ? WHERE `uid` = ?;UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?;UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id;',[label, label, 1, userId, newEnd, userId, newEnd, userId], function (err, result) {
 					    if (err) throw err;
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  };
-						dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+						    console.log(result)
+						    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
 					  });
+						// dbConnection.query('',[
+						// postBody['field_member_type:label'], userId], function (err, result) {
+					 //    if (err) throw err;
+					 //    console.log(result)
+					 //    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					 //  });
 					}
 
 					// Update status
-					if (postBody['status']) {
-						console.log('we got status: ', postBody.status)
-						// if (postBody.status === 'Active') {
+					// if (postBody.status) {
+					// 	console.log('we got status: ', postBody.status)
+					// 	// if (postBody.status === 'Active') {
 
-						// }
-						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in users");
-					  });
-					}
+					// 	// }
+					// 	dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[
+					// 	1, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in users");
+					//   });
+					// }
 
 					// Update date
-					dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  });
-					dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
-					  });
+					// dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
+					// 	newEnd, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   });
+					// dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
+					// 	newEnd, userId], function (err, result) {
+					//     if (err) throw err;
+					//     console.log(result)
+					//     console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
+					//   });
 
 
 				  // clear cache
-				  dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId], function(err, result2) {
+				  dbConnection.query('SELECT * FROM `users` WHERE uid = ?',[userId], function(err, result2) {
   					if (err) throw err
 				      result2.forEach(function(row) {
-				      	console.log('clear cache for...', row.name);
+				      	console.log(row.name);
 				      	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
 				      			console.log('cache cleared', result3)
 								if (err) throw err
