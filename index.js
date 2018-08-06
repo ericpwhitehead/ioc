@@ -75,6 +75,7 @@ function renewingUser(userId) {
 					console.log('could it be this?', infusionsoftData[0].entity_id);
 					resolve(infusionsoftData[0]);
    });
+  });
    return promise;
 }
 
