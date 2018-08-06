@@ -68,24 +68,25 @@ app.post('/test', (req, res) => {
 app.use(bodyParser.urlencoded({ extended: false }))
 
 function clearCache(id) {
-var myPromise = new Promise(function(resolve, reject){
-   // clear cache
-		  dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [id], function(err, result2) {
-				if (err) reject(err)
+	console.log('entity id passed from first query', id)
+	var myPromise = new Promise(function(resolve, reject){
+	   // clear cache
+			  dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [id], function(err, result2) {
+					if (err) reject(err)
 
-				console.log('result2', result2)
-		      result2.forEach(function(row) {
-		      	console.log('clear cache for...', row.name);
-		      	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
-		      			console.log('cache cleared', result3)
-						if (err) throw err
-						console.log('result3', result3);
-						resolve(result3)
-	      			})
-			  })
-		  
-			  })
-	})
+					console.log('result2', result2)
+			      result2.forEach(function(row) {
+			      	console.log('clear cache for...', row.name);
+			      	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
+			      			console.log('cache cleared', result3)
+							if (err) throw err
+							console.log('result3', result3);
+							resolve(result3)
+		      			})
+				  })
+			  
+				  })
+		})
 }
 
 app.post('/', (req, res) => {
@@ -131,10 +132,9 @@ app.post('/', (req, res) => {
 		dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value], function(err, result) {
       			if (err) throw err
       				console.log('result', result)
-			     // result.forEach(function(row) {
-			      	console.log('result0 ', result[0]);
-
 			      	var entity = result[0].entity_id;
+
+			      	console.log('entity', entity);
 			      	clearCache(entity)
 			      	.then((resp) => {
 			      		console.log(resp);
