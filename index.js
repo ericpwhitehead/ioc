@@ -78,26 +78,26 @@ app.post('/', (req, res) => {
 	console.log(len)
 	console.log('postBody', postBody)
 
-	// if(len > 4){
-	// 	console.log('this is a new member')
-	// 	rand = Math.floor(Math.random()*90000) + 10000;
-	// 	console.log('this random number', rand);
-	// 	console.log('name', postBody.name);
-	// 	console.log('email', postBody.mail);
-	// 	dbConnection.query('INSERT into "users" (uid, name, pass, mail) VALUES (?,?,?,?)',[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail], function(err, result) {
-	// 		console.log('result', result);
-	// 		console.log('err', err)
- //      			if (err) throw err
+	if(len > 4){
+		console.log('this is a new member')
+		rand = Math.floor(Math.random()*90000) + 10000;
+		console.log('this random number', rand);
+		console.log('name', postBody.name);
+		console.log('email', postBody.mail);
+		dbConnection.query('INSERT into "users" (uid, name, pass, mail) VALUES (?,?,?,?)',[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail], function(err, result) {
+			console.log('result', result);
+			console.log('err', err)
+      			if (err) throw err
 
-	// 		      result.forEach(function(row) {
-	// 		      	console.log('this row', row);
-	// 		      	sockConn.dispose();
-	// 		      	res.json({message: 'new user added'})
-	// 		      });
+			      result.forEach(function(row) {
+			      	console.log('this row', row);
+			      	sockConn.dispose();
+			      	res.json({message: 'new user added'})
+			      });
 
-	// 	//(5060, 'testuser.three_5060', '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', 'testuser.three@instituteofcoaching.org', '', '', 'filtered_html', 1528218222, 1528985314, 1528985314, 1, 'America/New_York', '', 0, 'testuser.three@instituteofcoaching.org', 0x613a353a7b733a31363a22636b656469746f725f64656661756c74223b733a313a2274223b733a32303a22636b656469746f725f73686f775f746f67676c65223b733a313a2274223b733a31343a22636b656469746f725f7769647468223b733a343a2231303025223b733a31333a22636b656469746f725f6c616e67223b733a323a22656e223b733a31383a22636b656469746f725f6175746f5f6c616e67223b733a313a2274223b7d);
-	// });
-	// }
+		//(5060, 'testuser.three_5060', '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', 'testuser.three@instituteofcoaching.org', '', '', 'filtered_html', 1528218222, 1528985314, 1528985314, 1, 'America/New_York', '', 0, 'testuser.three@instituteofcoaching.org', 0x613a353a7b733a31363a22636b656469746f725f64656661756c74223b733a313a2274223b733a32303a22636b656469746f725f73686f775f746f67676c65223b733a313a2274223b733a31343a22636b656469746f725f7769647468223b733a343a2231303025223b733a31333a22636b656469746f725f6c616e67223b733a323a22656e223b733a31383a22636b656469746f725f6175746f5f6c616e67223b733a313a2274223b7d);
+	});
+	}
 
 	
 
@@ -106,46 +106,43 @@ app.post('/', (req, res) => {
 		console.log('id', field_infusionsoft_id_value);
 		console.log('type', typeof field_infusionsoft_id_value);
 		console.log('it is a renewal or lapsed')
-		return dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value]).then((infusionsoftData) => {
-					console.log('data from first query', infusionsoftData);
-					console.log('zero index', infusionsoftData[0])
-					console.log('could it be this?', infusionsoftData[0].entity_id);
-			      infusionsoftData.forEach(function(row) {
-			      	console.log('this row ', row.entity_id);
-			      	const userId = row.entity_id;
-				    var dateString = postBody['field_start_date:end'];
-					var newDate = new Date(dateString);
-					var year = newDate.getFullYear();
-					var month = newDate.getMonth()+1;
-					var day = newDate.getDate();
-					var newYear = year+1
-					var c = new Date(month+'/'+day+'/'+newYear);
-					var newEnd = c.toISOString();
-					console.log(newEnd);
-					var label = postBody['field_member_type:label'];
-					console.log('this userid', userId);
+		
+		dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value], function(err, result) {
+      			if (err) throw err
+      				console.log('result', result)
+			     // result.forEach(function(row) {
+			      	console.log('result0 ', resrult[0]);
+			  //     	const userId = row.entity_id;
+				 //    var dateString = postBody['field_start_date:end'];
+					// var newDate = new Date(dateString);
+					// var year = newDate.getFullYear();
+					// var month = newDate.getMonth()+1;
+					// var day = newDate.getDate();
+					// var newYear = year+1
+					// var c = new Date(month+'/'+day+'/'+newYear);
+					// var newEnd = c.toISOString();
+					// console.log(newEnd);
+					// var label = postBody['field_member_type:label'];
+					// console.log('this userid', userId);
 
-				})
+
+					sockConn.dispose();
+				  	res.json({message: 'received'})
+
 
 					// clear cache
-				  //  return dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId])
-				  //  .then((cacheData) => {
-				  //  	console.log('second query / cache data', cacheData);
-				  //     // cacheData.forEach(function(row2) {
-				  //     // 	console.log('clear cache for...', row.name);
-				  //     // 	 return dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'])
-				  //     // 	 .then((clearedCache) => {
-
-
-				  //     // 			console.log('cache cleared', clearedCache)
-				  //     // 			sockConn.dispose();
-				  // 				// res.json({message: 'received'})
-			       			})
-					  .catch((err) => {
-					  	console.log('err', err)
-					  })
-				  // }
-	 			  //})
+				  // dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [userId], function(err, result2) {
+  				// 	if (err) throw err
+				  //     result2.forEach(function(row) {
+				  //     	console.log('clear cache for...', row.name);
+				  //     	dbConnection.query('DELETE FROM `cache_entity_user` WHERE data LIKE ?',['%'+row.name+'%'], function(err, result3) {
+				  //     			console.log('cache cleared', result3)
+						// 		if (err) throw err
+						// 		console.log(result3);
+			   //    			})
+					 //  })
+				  
+	 			 //  })
 
 
 					// update member type if it is passed
@@ -188,10 +185,9 @@ app.post('/', (req, res) => {
 
 
 
-				// 	sockConn.dispose();
-				//   	res.json({message: 'received'})
+					
 
-				// }) //end forEach
+				//}) //end forEach
 
 		//});
 	} else {
