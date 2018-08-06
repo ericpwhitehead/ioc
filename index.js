@@ -97,14 +97,14 @@ function clearCache(id) {
 function updateStatus(id) {
 	console.log('entity id passed from first query', id);
 	var myPromise = new Promise(function(resolve, reject){
-	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[2, id], function (err, statusUpdate) {
+	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, id], function (err, statusUpdate) {
 					    if (err) {
 					    	console.log('error', err)
 					    	reject(err);
 					    }
 					    console.log(statusUpdate)
 					    console.log(statusUpdate.affectedRows + " record(s) updated in users");
-					    resolve(statusUpdate)
+					    resolve(id)
 					  });
 		})
 	return myPromise;
@@ -195,7 +195,10 @@ app.post('/', (req, res) => {
 					//   });
 					updateStatus(entity)
 					.then((resp) => {
-						console.log('update Status response', resp)
+						return clearCache(resp)
+					})
+					.then((cacheResponse) => {
+						console.log('cache response', cacheResponse);
 					})
 					.catch((err) => {
 						console.log('error', err);
