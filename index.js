@@ -97,7 +97,7 @@ function clearCache(id) {
 function updateStatus(id) {
 	console.log('entity id passed from first query', id);
 	var myPromise = new Promise(function(resolve, reject){
-	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, id], function (err, statusUpdate) {
+	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[2, id], function (err, statusUpdate) {
 					    if (err) {
 					    	console.log('error', err)
 					    	reject(err);
