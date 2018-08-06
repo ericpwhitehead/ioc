@@ -70,9 +70,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 function clearCache(id) {
 	console.log('entity id passed from first query', id)
 	var myPromise = new Promise(function(resolve, reject){
+		console.log('inside promise');
 	   // clear cache
 			  dbConnection.query('SELECT * FROM `users` WHERE uid = ?', [id], function(err, result2) {
-					if (err) reject(err)
+					if (err) {
+						console.log('err', err)
+						reject(err)
+					}
 
 					console.log('result2', result2)
 			      result2.forEach(function(row) {
