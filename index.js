@@ -94,7 +94,6 @@ function clearCache(id) {
 	return myPromise;
 }
 
-
 function updateStatus(id) {
 	console.log('entity id passed from first query', id);
 	var myPromise = new Promise(function(resolve, reject){
@@ -107,7 +106,6 @@ function updateStatus(id) {
 					    console.log(statusUpdate.affectedRows + " record(s) updated in users");
 					    resolve(statusUpdate)
 					  });
-					}
 		})
 	return myPromise;
 }
