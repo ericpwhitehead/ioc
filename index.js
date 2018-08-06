@@ -72,7 +72,7 @@ function renewingUser(userId) {
       dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[userId],  function(err, infusionsoftData) {
 					console.log('data from first query', infusionsoftData);
 					console.log('zero index', infusionsoftData[0])
-					console.log('could it be this?', infusionsoftData[0].entity_id);
+					console.log('could it be this?', infusionsoftData[0]);
 					resolve(infusionsoftData[0]);
    });
   });
@@ -115,11 +115,11 @@ app.post('/', (req, res) => {
 
 	if (len <= 5) {
 		var field_infusionsoft_id_value = postBody.field_infusionsoft_id;
-		console.log('id', field_infusionsoft_id_value);
+		console.log('id', field_infusionsoft_id);
 		console.log('type', typeof field_infusionsoft_id_value);
 		console.log('it is a renewal or lapsed')
 		
-		renewingUser(field_infusionsoft_id_value)
+		renewingUser(req.body.field_infusionsoft_id)
 			.then((res) => {
 				console.log('first promise result', res)
 			})
