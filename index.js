@@ -125,7 +125,12 @@ app.post('/', (req, res) => {
 			.catch((err) => {
 				console.log('got an error', err)
 			})
-		// return dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[field_infusionsoft_id_value]).then((infusionsoftData) => {
+		dbConnection.query('SELECT * FROM `field_data_field_infusionsoft_id` WHERE field_infusionsoft_id_value = ?',[postBody.field_infusionsoft_id_value],  function(err, result) {
+					console.log('this reuslt', result);
+   });
+
+
+			//).then((infusionsoftData) => {
 		// 			console.log('data from first query', infusionsoftData);
 		// 			console.log('zero index', infusionsoftData[0])
 		// 			console.log('could it be this?', infusionsoftData[0].entity_id);
