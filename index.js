@@ -126,7 +126,7 @@ app.post('/', (req, res) => {
 					// console.log('this userid', userId);
 
 
-					sockConn.dispose();
+					//sockConn.dispose();
 				  	res.json({message: 'received'})
 			})
 
