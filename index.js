@@ -122,51 +122,49 @@ app.post('/', (req, res) => {
 					var c = new Date(month+'/'+day+'/'+newYear);
 					var newEnd = c.toISOString();
 					console.log(newEnd);
+					var label = postBody['field_member_type:label'];
 
 
 					// update member type if it is passed
-					if (postBody['field_member_type:label']) {
-						dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?;UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?;UPDATE `users` SET `status` = ? WHERE `uid` = ?;UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?;UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id;',[
-						postBody['field_member_type:label', 'field_member_type:label', 1, userId, newEnd, userId, newEnd, userId], function (err, result) {
-					    if (err) throw err;
-					    console.log(result)
-					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					  });
-						// dbConnection.query('',[
-						// postBody['field_member_type:label'], userId], function (err, result) {
-					 //    if (err) throw err;
-					 //    console.log(result)
-					 //    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					 //  });
-					}
-
-					// Update status
-					// if (postBody.status) {
-					// 	console.log('we got status: ', postBody.status)
-					// 	// if (postBody.status === 'Active') {
-
-					// 	// }
-					// 	dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[
-					// 	1, userId], function (err, result) {
+					// if (label) {
+					// 	dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
 					//     if (err) throw err;
-					//     console.log(result)
-					//     console.log(result.affectedRows + " record(s) updated in users");
-					//   });
-					// }
-
-					// Update date
-					// dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
-					// 	newEnd, userId], function (err, result) {
+					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					//   };
+					// 	dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ labels, userId], function (err, result) {
 					//     if (err) throw err;
 					//     console.log(result)
 					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
 					//   });
-					// dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
-					// 	newEnd, userId], function (err, result) {
-					//     if (err) throw err;
-					//     console.log(result)
-					//     console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
-					//   });
+					// }
+
+					// Update status
+					if (postBody.status) {
+						console.log('we got status: ', postBody.status)
+						// if (postBody.status === 'Active') {
+
+						// }
+						dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[
+						1, userId], function (err, result) {
+					    if (err) throw err;
+					    console.log(result)
+					    console.log(result.affectedRows + " record(s) updated in users");
+					  });
+					}
+
+					// Update date
+					dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
+						newEnd, userId], function (err, result) {
+					    if (err) throw err;
+					    console.log(result)
+					    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+					  });
+					dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[
+						newEnd, userId], function (err, result) {
+					    if (err) throw err;
+					    console.log(result)
+					    console.log(result.affectedRows + " record(s) updated in field_revision_field_start_date");
+					  });
 
 
 				  // clear cache
