@@ -131,11 +131,11 @@ app.post('/', (req, res) => {
 		var rightNow = Date.now();
 		// password1ioc
 
-		dbConnection.query('INSERT into `users` (uid, name, pass, mail, signature_format, created, status,init) VALUES (?,?,?,?)',[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail,'filtered_html', rightNow, 1, postBody.mail], function(inserterr, insresult) {
+		dbConnection.query('INSERT into `users` (uid, name, pass, mail, signature_format, created, status, init) VALUES (?,?,?,?)',[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail, 'filtered_html', rightNow, 1, postBody.mail], function(inserterr, insresult) {
 			console.log('result', insresult);
 			console.log('err', inserterr)
-      			if (err) throw err
-      		res.json({message: insresult})
+      			if (inserterr) throw inserterr
+      			res.json({message: insresult})
 
 
 		//(5060, 'testuser.three_5060', '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', 'testuser.three@instituteofcoaching.org', '', '', 'filtered_html', 1528218222, 1528985314, 1528985314, 1, 'America/New_York', '', 0, 'testuser.three@instituteofcoaching.org', 0x613a353a7b733a31363a22636b656469746f725f64656661756c74223b733a313a2274223b733a32303a22636b656469746f725f73686f775f746f67676c65223b733a313a2274223b733a31343a22636b656469746f725f7769647468223b733a343a2231303025223b733a31333a22636b656469746f725f6c616e67223b733a323a22656e223b733a31383a22636b656469746f725f6175746f5f6c616e67223b733a313a2274223b7d);
