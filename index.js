@@ -165,9 +165,9 @@ app.post('/', (req, res) => {
 			console.log('err', inserterr)
       			if (inserterr) throw inserterr
       			//res.json({message: insresult})
-      			updateStatus(postBody.field_infusionsoft_id)
+      			updateStatus(rand)
 					.then((resp) => {
-						return clearCache(resp)
+						return clearCache(rand)
 					})
 					.then((cacheResponse) => {
 						console.log('cache response', cacheResponse);
@@ -182,7 +182,7 @@ app.post('/', (req, res) => {
 						var newEnd = c.toISOString();
 						console.log('new end', newEnd);
 						console.log('id', postBody.field_infusionsoft_id);
-						return updateDate(newEnd, postBody.field_infusionsoft_id)
+						return updateDate(newEnd, rand)
 					})
 					.catch((err) => {
 						console.log('error', err);
