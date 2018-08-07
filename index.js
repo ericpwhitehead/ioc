@@ -85,7 +85,7 @@ function clearCache(id) {
 			      			console.log('cache cleared', result3)
 							if (err) throw err
 							console.log('result3', result3);
-							resolve(result3)
+							resolve(id)
 		      			})
 				  })
 			  
@@ -108,6 +108,31 @@ function updateStatus(id) {
 					  });
 		})
 	return myPromise;
+}
+
+function updateDate(newEnd, id) {
+
+	console.log('id passed from first query', id);
+	var myPromise = new Promise(function(resolve, reject){
+		dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, dateStart) {
+					    if (err) {
+					    	console.log('error', err)
+					    	reject(err);
+					    }
+					    console.log(dateStart)
+					    console.log(dateStart.affectedRows + " record(s) updated in field_data_field_start_date");
+
+					    dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, revisionStart) {
+					    if (err) throw err;
+					    console.log(revisionStart)
+					    console.log(revisionStart.affectedRows + " record(s) updated in field_revision_field_start_date");
+					    resolve({results: {dateStart,revisionStart}})
+					  });
+
+					  });
+		})
+	return myPromise;
+
 }
 
 app.post('/', (req, res) => {
@@ -146,6 +171,18 @@ app.post('/', (req, res) => {
 					})
 					.then((cacheResponse) => {
 						console.log('cache response', cacheResponse);
+
+						var dateString = postBody['field_start_date:end'];
+						var newDate = new Date(dateString);
+						var year = newDate.getFullYear();
+						var month = newDate.getMonth()+1;
+						var day = newDate.getDate();
+						var newYear = year+1
+						var c = new Date(month+'/'+day+'/'+newYear);
+						var newEnd = c.toISOString();
+						console.log('new end', newEnd);
+						console.log('id', postBody.field_infusionsoft_id);
+						return updateDate(newEnd, postBody.field_infusionsoft_id)
 					})
 					.catch((err) => {
 						console.log('error', err);
