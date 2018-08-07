@@ -114,7 +114,7 @@ function updateDate(newEnd, id) {
 
 	console.log('id passed from first query', id);
 	var myPromise = new Promise(function(resolve, reject){
-		dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, dateStart) {
+		dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, id], function (err, dateStart) {
 					    if (err) {
 					    	console.log('error', err)
 					    	reject(err);
@@ -122,7 +122,7 @@ function updateDate(newEnd, id) {
 					    console.log(dateStart)
 					    console.log(dateStart.affectedRows + " record(s) updated in field_data_field_start_date");
 
-					    dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, revisionStart) {
+					    dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, id], function (err, revisionStart) {
 					    if (err) throw err;
 					    console.log(revisionStart)
 					    console.log(revisionStart.affectedRows + " record(s) updated in field_revision_field_start_date");
