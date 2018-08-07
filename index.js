@@ -143,10 +143,15 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 					    	console.log('error', err)
 					    	reject(err);
 					    }
-					    console.log('insert results', insertRes)
-					    console.log(dateStart.affectedRows + " record(s) updated in field_data_field_start_date");
+					    console.log('insert to revision results', insertRes)
 
-					    resolve(insertRes)
+					    dbConnection.query('INSERT into `field_data_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, drupalId,drupalId,'und', 0, infusionsoftId], function (err, insertRes2) {
+					    	if (err) {
+						    	console.log('error', err)
+						    	reject(err);
+						    }
+						    console.log('insert to data results', insertRes2)
+					    	resolve(insertRes2)
 					  });
 
 					  });
