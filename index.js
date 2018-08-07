@@ -155,6 +155,7 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 					  });
 
 					  });
+	})
 	return myPromise;
 }
 
