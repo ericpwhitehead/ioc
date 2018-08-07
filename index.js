@@ -128,9 +128,10 @@ app.post('/', (req, res) => {
 		console.log('name', postBody.name);
 		console.log('email', postBody.mail);
 		console.log('rand', rand)
+		var rightNow = Date.now();
 		// password1ioc
-		var thisQuery = 'INSERT into `users` (uid, name, pass, mail) VALUES (?,?,?,?)';
-		dbConnection.query(thisQuery,[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail], function(inserterr, insresult) {
+		var thisQuery = 'INSERT into `users` (uid, name, pass, mail, signature_format, created, status,init) VALUES (?,?,?,?)';
+		dbConnection.query(thisQuery,[rand, postBody.name, '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', postBody.mail,'filtered_html', rightNow, 1, postBody.mail], function(inserterr, insresult) {
 			console.log('result', insresult);
 			console.log('err', inserterr)
       			if (err) throw err
