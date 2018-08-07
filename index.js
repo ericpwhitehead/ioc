@@ -179,6 +179,7 @@ app.post('/', (req, res) => {
 		console.log('values', values);
 		console.log('val len', values.length)
 
+
 		dbConnection.query('INSERT into `users` (uid, name, pass, mail, signature_format, created, status, init) VALUES (?,?,?,?,?,?,?,?)',values, function(inserterr, insresult) {
 			console.log('result', insresult);
 			console.log('err', inserterr)
