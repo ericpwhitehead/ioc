@@ -134,6 +134,25 @@ function updateDate(newEnd, id) {
 	return myPromise;
 
 }
+function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
+	console.log('drupal id passed from first query', drupalId);
+	console.log('infusionsoftId id passed from first query', infusionsoftId);
+	var myPromise = new Promise(function(resolve, reject){
+		dbConnection.query('INSERT into `field_revision_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)',['user', 'user', 0, drupalId,drupalId, 'und', 0 infustionsoftId,], function (err, insertRes) {
+					    if (err) {
+					    	console.log('error', err)
+					    	reject(err);
+					    }
+					    console.log('insert results', insertRes)
+					    console.log(dateStart.affectedRows + " record(s) updated in field_data_field_start_date");
+
+					    resolve(insertRes)
+					  });
+
+					  });
+		})
+	return myPromise;
+}
 
 app.post('/', (req, res) => {
 
@@ -183,6 +202,13 @@ app.post('/', (req, res) => {
 						console.log('new end', newEnd);
 						console.log('id', postBody.field_infusionsoft_id);
 						return updateDate(newEnd, rand)
+					})
+					.then((res) => {
+						console.log('result before updating link', res)
+						return createDrupalInfusionsoftLink(rand, postBody.field_infusionsoft_id)
+					})
+					.then((linkRes) => {
+						console.log('link res', linkRes);
 					})
 					.catch((err) => {
 						console.log('error', err);
