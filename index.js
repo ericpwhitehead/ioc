@@ -141,9 +141,11 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 	
 }
 function updateType(userId, label) {
-
+	var labelid = Number(label);
+	console.log('labelId', labelid);
+	console.log(typeof labelid)
 	var myPromise = new Promise(function(resolve, reject){	
-	 dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
+	 dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [labelid, userId], function (err, result) {
 		    if (err) {
 		    	console.log('error', err)
 		    	reject(err);
@@ -151,7 +153,7 @@ function updateType(userId, label) {
 		    console.log(result)
 		    console.log(result.affectedRows + " record(s) updated in field_revision_field_member_type");
 
-		    dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result2) {
+		    dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ labelid, userId], function (err, result2) {
 		    if (err) throw err;
 		    console.log(result2)
 		    console.log(result2.affectedRows + " record(s) updated in field_revision_field_member_type");
