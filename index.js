@@ -138,12 +138,12 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 	console.log('drupal id passed from first query', drupalId);
 	console.log('infusionsoftId id passed from first query', infusionsoftId);
 	var myPromise = new Promise(function(resolve, reject){
-		dbConnection.query('INSERT into `field_revision_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, drupalId,drupalId,'und', 0, infusionsoftId], function (err, insertRes) {
-					    if (err) {
-					    	console.log('error', err)
-					    	reject(err);
-					    }
-					    console.log('insert to revision results', insertRes)
+		// dbConnection.query('INSERT into `field_revision_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, drupalId,drupalId,'und', 0, infusionsoftId], function (err, insertRes) {
+		// 			    if (err) {
+		// 			    	console.log('error', err)
+		// 			    	reject(err);
+		// 			    }
+		// 			    console.log('insert to revision results', insertRes)
 
 					    dbConnection.query('INSERT into `field_data_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, drupalId,drupalId,'und', 0, infusionsoftId], function (err, insertRes2) {
 					    	if (err) {
@@ -278,6 +278,10 @@ app.post('/', (req, res) => {
 					})
 					.then((cacheResponse) => {
 						console.log('cache response', cacheResponse);
+						return updateDate(newEnd, entity)
+					})
+					.then((dateResp) => {
+						console.log('last respononse', dateResp);
 					})
 					.catch((err) => {
 						console.log('error', err);
