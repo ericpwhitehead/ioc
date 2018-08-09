@@ -150,13 +150,10 @@ function updateType(userId, label) {
 		    	console.log('error', err)
 		    	reject(err);
 		    }
-		    console.log(result)
-		    console.log(result.affectedRows + " record(s) updated in field_revision_field_member_type");
-
+		    console.log('first type result', result)
 		    dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ labelid, userId], function (err, result2) {
 		    if (err) throw err;
-		    console.log(result2)
-		    console.log(result2.affectedRows + " record(s) updated in field_revision_field_member_type");
+		    console.log('second type result', result2)
 		    resolve({results: result2})
 		  });
 
@@ -259,7 +256,7 @@ app.post('/', (req, res) => {
 						console.log('cache response', dateResp);
 						if (postBody['field_member_type:label']) {
 							console.log('we got label, need to update it')
-							updateType(entity)
+							updateType(entity, postBody['field_member_type:label'])
 							.then((typeResp) => {
 								console.log('type update resp', typeResp)
 								return clearCache(entity)
