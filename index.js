@@ -53,17 +53,6 @@ app.get('/', (req, res) => {
 	res.send('App is up and running');
 })
 
-app.post('/test', (req, res) => {
-	res.json({message: 'got it'})
-})
-
-
-// dbConnection.query('SELECT * FROM users;', function(err, rows, fields) {
-// 	    if (err) throw err;
-
-// 	    console.log('Result: ', rows);
-// 	    sockConn.dispose();
-// 	});
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -138,13 +127,6 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 	console.log('drupal id passed from first query', drupalId);
 	console.log('infusionsoftId id passed from first query', infusionsoftId);
 	var myPromise = new Promise(function(resolve, reject){
-		// dbConnection.query('INSERT into `field_revision_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, drupalId,drupalId,'und', 0, infusionsoftId], function (err, insertRes) {
-		// 			    if (err) {
-		// 			    	console.log('error', err)
-		// 			    	reject(err);
-		// 			    }
-		// 			    console.log('insert to revision results', insertRes)
-
 					    dbConnection.query('INSERT into `field_data_field_infusionsoft_id` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_infusionsoft_id_value) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, drupalId,drupalId,'und', 0, infusionsoftId], function (err, insertRes2) {
 					    	if (err) {
 						    	console.log('error', err)
@@ -158,18 +140,37 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 
 	
 }
+function updateType(userId, label) {
+
+	var myPromise = new Promise(function(resolve, reject){	
+	 dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
+		    if (err) {
+		    	console.log('error', err)
+		    	reject(err);
+		    }
+		    console.log(result)
+		    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+
+		    dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result2) {
+		    if (err) throw err;
+		    console.log(result2)
+		    console.log(result2.affectedRows + " record(s) updated in field_revision_field_start_date");
+		    resolve({results: result2})
+		  });
+
+		});
+	});
+	return myPromise;
+
+}
 
 
 app.post('/', (req, res) => {
-
-	console.log('content type passed', req.headers['content-type']);
-	console.log('post came in: ', req.body);
-
 	var postBody = req.body;
-	console.log('type', typeof postBody);
+
 	var len = Object.keys(postBody).length;
 	console.log(len)
-	console.log('postBody', postBody)
+	console.log('postBody', postBody);
 
 	if(len > 5){
 		console.log('this is a new member')
@@ -247,32 +248,6 @@ app.post('/', (req, res) => {
 
 			      	console.log('entity', entity);
 
-
-
-			      	// Update status
-					// if (postBody['status']) {
-					// 	console.log('we got status: ', postBody.status)
-					// 	// if (postBody.status === 'Active') {
-
-					// 	// }
-					// 	dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, userId], function (err, statusUpdate) {
-					//     if (err) throw err;
-					//     console.log(statusUpdate)
-					//     console.log(statusUpdate.affectedRows + " record(s) updated in users");
-					//   });
-					// }
-
-					// // Update date
-					// dbConnection.query('UPDATE `field_data_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, datStart) {
-					//     if (err) throw err;
-					//     console.log(datStart)
-					//     console.log(datStart.affectedRows + " record(s) updated in field_data_field_start_date");
-					//   });
-					// dbConnection.query('UPDATE `field_revision_field_start_date` SET `field_start_date_value2` = ? WHERE `entity_id` = ?',[newEnd, userId], function (err, revisionStart) {
-					//     if (err) throw err;
-					//     console.log(revisionStart)
-					//     console.log(revisionStart.affectedRows + " record(s) updated in field_revision_field_start_date");
-					//   });
 					updateStatus(entity)
 					.then((resp) => {
 						console.log('first resp', resp)
@@ -280,50 +255,24 @@ app.post('/', (req, res) => {
 					})
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
+						if (postBody['field_member_type:label']) {
+							console.log('we got label, need to update it')
+							updateType(entity)
+							.then((typeResp) => {
+								console.log('type update resp', typeResp)
+								return clearCache(entity)
+							})
+						}
 						return clearCache(entity)
 					})
 					.then((cacheResp) => {
-						console.log('last respononse', cachResp);
+						console.log('last respononse', cacheResp);
 					})
 					.catch((err) => {
 						console.log('error', err);
 					})
-			      	// clearCache(entity)
-			      	// .then((resp) => {
-			      	// 	console.log(resp);
-			      	// })
-			      	// .catch((err) => {
-			      	// 	console.log(resp);
-			      	// })
-
 				  	res.json({message: 'received'})
 			})
-
-					
-
-
-					// update member type if it is passed
-					// if (label) {
-					// 	dbConnection.query('UPDATE `field_revision_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?', [label, userId], function (err, result) {
-					//     if (err) throw err;
-					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					//   });
-					// 	dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result) {
-					//     if (err) throw err;
-					//     console.log(result)
-					//     console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
-					//   });
-					// }
-
-					
-
-
-
-					
-
-				//}) //end forEach
-
-		//});
 	} else {
 		sockConn.dispose();
 		res.json({message: 'got the post but did not update the database'})
