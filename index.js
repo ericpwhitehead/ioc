@@ -184,7 +184,7 @@ app.post('/', (req, res) => {
 		var values = [rand, postBody.name, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', rightNow, 1, postBody.mail]
 		console.log('values', values);
 		console.log('val len', values.length)
-		
+
 
 
 		dbConnection.query('INSERT into `users` (uid, name, pass, mail, signature_format, created, status, init) VALUES (?,?,?,?,?,?,?,?)',values, function(inserterr, insresult) {
@@ -275,14 +275,15 @@ app.post('/', (req, res) => {
 					//   });
 					updateStatus(entity)
 					.then((resp) => {
-						return clearCache(resp)
-					})
-					.then((cacheResponse) => {
-						console.log('cache response', cacheResponse);
+						console.log('first resp', resp)
 						return updateDate(newEnd, entity)
 					})
 					.then((dateResp) => {
-						console.log('last respononse', dateResp);
+						console.log('cache response', dateResp);
+						return clearCache(entity)
+					})
+					.then((cacheResp) => {
+						console.log('last respononse', cachResp);
 					})
 					.catch((err) => {
 						console.log('error', err);
