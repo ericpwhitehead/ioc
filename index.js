@@ -171,7 +171,7 @@ app.post('/', (req, res) => {
 	console.log(len)
 	console.log('postBody', postBody)
 
-	if(len > 4){
+	if(len > 5){
 		console.log('this is a new member')
 		rand = Math.floor(Math.random()*90000) + 10000;
 		console.log('this random number', rand);
@@ -184,6 +184,7 @@ app.post('/', (req, res) => {
 		var values = [rand, postBody.name, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', rightNow, 1, postBody.mail]
 		console.log('values', values);
 		console.log('val len', values.length)
+		
 
 
 		dbConnection.query('INSERT into `users` (uid, name, pass, mail, signature_format, created, status, init) VALUES (?,?,?,?,?,?,?,?)',values, function(inserterr, insresult) {
