@@ -149,12 +149,12 @@ function updateType(userId, label) {
 		    	reject(err);
 		    }
 		    console.log(result)
-		    console.log(result.affectedRows + " record(s) updated in field_data_field_start_date");
+		    console.log(result.affectedRows + " record(s) updated in field_revision_field_member_type");
 
 		    dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ label, userId], function (err, result2) {
 		    if (err) throw err;
 		    console.log(result2)
-		    console.log(result2.affectedRows + " record(s) updated in field_revision_field_start_date");
+		    console.log(result2.affectedRows + " record(s) updated in field_revision_field_member_type");
 		    resolve({results: result2})
 		  });
 
