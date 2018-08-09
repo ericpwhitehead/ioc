@@ -153,10 +153,10 @@ function createDrupalInfusionsoftLink(drupalId, infusionsoftId) {
 						    console.log('insert to data results', insertRes2)
 					    	resolve(insertRes2)
 					  });
-
+		return myPromise;
 					  });
-	})
-	return myPromise;
+
+	
 }
 
 
