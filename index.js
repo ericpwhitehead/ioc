@@ -7,6 +7,12 @@ var mysql = require('mysql2'),
     SocksConnection = require('socksjs');
 
 
+// var iSDK = require('infusionsoft');
+// var client = new iSDK('js133', '802b05033fb43899514394f4399c3bbf');
+
+// console.log(client);
+
+
 
 app.use(bodyParser.json());
 
@@ -221,10 +227,8 @@ app.post('/', (req, res) => {
 					.catch((err) => {
 						console.log('error', err);
 					})
-
-		//(5060, 'testuser.three_5060', '$S$Dyqk85Tk9TLeJ3SHRJ.6UL7yujsihBBRlzqKE6y3mKrHUP6/YNrP', 'testuser.three@instituteofcoaching.org', '', '', 'filtered_html', 1528218222, 1528985314, 1528985314, 1, 'America/New_York', '', 0, 'testuser.three@instituteofcoaching.org', 0x613a353a7b733a31363a22636b656469746f725f64656661756c74223b733a313a2274223b733a32303a22636b656469746f725f73686f775f746f67676c65223b733a313a2274223b733a31343a22636b656469746f725f7769647468223b733a343a2231303025223b733a31333a22636b656469746f725f6c616e67223b733a323a22656e223b733a31383a22636b656469746f725f6175746f5f6c616e67223b733a313a2274223b7d);
 	});
-	} else if (len <= 5) {
+	} else if (len <= 6) {
 		var field_infusionsoft_id_value = postBody.field_infusionsoft_id;
 		console.log('id', field_infusionsoft_id_value);
 		console.log('type', typeof field_infusionsoft_id_value);
