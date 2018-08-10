@@ -177,7 +177,7 @@ app.post('/', (req, res) => {
 	console.log(len)
 	console.log('postBody', postBody);
 
-	if(len > 5){
+	if(len > 6){
 		console.log('this is a new member')
 		rand = Math.floor(Math.random()*90000) + 10000;
 		console.log('this random number', rand);
@@ -219,10 +219,10 @@ app.post('/', (req, res) => {
 					})
 					.then((res) => {
 						console.log('result before updating link', res)
-						return createDrupalInfusionsoftLink(rand, postBody.field_infusionsoft_id)
-					})
-					.then((linkRes) => {
-						console.log('link res', linkRes);
+					// 	return createDrupalInfusionsoftLink(rand, postBody.field_infusionsoft_id)
+					// })
+					// .then((linkRes) => {
+					// 	console.log('link res', linkRes);
 					})
 					.catch((err) => {
 						console.log('error', err);
