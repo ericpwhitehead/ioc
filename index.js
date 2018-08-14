@@ -179,16 +179,23 @@ function insertUserInfo(id, postBody, newEnd) {
 			    	reject(err);
 			    }
 			    console.log('insert to data results', insertRes2)
+			    //`field_revision_field_start_date`
 			    dbConnection.query('INSERT into `field_data_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd], function (err, dateStart) {
 			    	if (err) {
 				    	console.log('error', err)
 				    	reject(err);
 			    	} else {
-			    		resolve(insertRes2)
+			    		dbConnection.query('INSERT into `field_revision_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd], function (err, dateStart2) {
+							if (err) reject(err);
+							console.log('revision result', dateStart2);
+							resolve(dateStart2);
+			    		})
+			    		
 			    	}
 			    })
 		    	
 				});
+		})
 		return myPromise;
 	});
 }
