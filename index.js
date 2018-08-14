@@ -169,10 +169,8 @@ function updateType(userId, label) {
 
 }
 
-function insertUserInfo(id, postBody, newEnd) {
+function insertUserInfo(id, postBody, newEnd, startDate) {
 	var myPromise = new Promise(function(resolve, reject){
-		var startDate = postBody['field_start_date:start']
-		var startDate2 = startDate.toISOString();
 		console.log('start', startDate);
 		    dbConnection.query('INSERT into `field_data_field_member_address` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_member_address_country, field_member_address_administrative_area, field_member_address_locality, field_member_address_postal_code, field_member_address_thoroughfare) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, 'US', postBody['field_member_address:administrative_area'], postBody['field_member_address:locality'], postBody['field_member_address:postal_code'], postBody['field_member_address:thoroughfare'] ], function (err, insertRes2) {
 		    	if (err) {
@@ -181,12 +179,12 @@ function insertUserInfo(id, postBody, newEnd) {
 			    }
 			    console.log('insert to data results', insertRes2)
 			    //`field_revision_field_start_date`
-			    dbConnection.query('INSERT into `field_data_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate2, newEnd], function (err, dateStart) {
+			    dbConnection.query('INSERT into `field_data_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd], function (err, dateStart) {
 			    	if (err) {
 				    	console.log('error', err)
 				    	reject(err);
 			    	} else {
-			    		dbConnection.query('INSERT into `field_revision_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate2, newEnd], function (err, dateStart2) {
+			    		dbConnection.query('INSERT into `field_revision_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd], function (err, dateStart2) {
 							if (err) reject(err);
 							console.log('revision result', dateStart2);
 							resolve(dateStart2);
@@ -242,10 +240,12 @@ app.post('/', (req, res) => {
 						var day = newDate.getDate();
 						var newYear = year+1
 						var c = new Date(month+'/'+day+'/'+newYear);
+						var originalDate = new Date(month+'/'+day+'/'+year)
+						var startDate - originalDate.toISOString();
 						var newEnd = c.toISOString();
 						console.log('new end', newEnd);
 						console.log('id', postBody.field_infusionsoft_id);
-						return insertUserInfo(rand, postBody, newEnd)
+						return insertUserInfo(rand, postBody, newEnd, startDate)
 					})
 					.then((res) => {
 						console.log('result before updating link', res)
