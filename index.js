@@ -179,7 +179,7 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 			    }
 			    console.log('insert to data results', insertRes2)
 			    //`field_revision_field_start_date`
-			    dbConnection.query('INSERT into `field_data_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?); INSERT into `field_data_field_member_type` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_member_type_target_id) VALUES (?,?,?,?,?,?,?,?) ', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd, 'user', 'user', 0, id,id,'und', 0, postBody['field_member_type:label'] ], function (err, dateStart) {
+			    dbConnection.query('INSERT into `field_data_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?);', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd, 'user', 'user', 0, id,id,'und', 0, postBody['field_member_type:label'] ], function (err, dateStart) {
 			    	if (err) {
 				    	console.log('error', err)
 				    	reject(err);
@@ -187,11 +187,20 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 			    		console.log('dateStart', dateStart)
 			    		console.log('firstName', postBody.field_name_first)
 			    		console.log('lastName', postBody.field_name_last)
-			    		dbConnection.query('INSERT into `field_data_field_name_last` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_name_last_value) VALUES (?,?,?,?,?,?,?,?,?); INSERT into `field_data_field_name_first` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_name_first_value) VALUES (?,?,?,?,?,?,?,?) ', ['user', 'user', 0, id,id,'und', 0, postBody.field_name_last, 'user', 'user', 0, id,id,'und', 0, postBody.field_name_first ], function (err, nameResponse) {
+			    		dbConnection.query('INSERT into `field_data_field_member_type` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_member_type_target_id) VALUES (?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, startDate, newEnd, 'user', 'user', 0, id,id,'und', 0, postBody['field_member_type:label']], function(err, memberTypeRes) {
+			    			if (err) reject(err)
+			    			console.log('memberTypeRes', memberTypeRes)
+			    			dbConnection.query('INSERT into `field_data_field_name_last` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_name_last_value) VALUES (?,?,?,?,?,?,?,?,?); ', ['user', 'user', 0, id,id,'und', 0, postBody.field_name_last ], function (err, lastnameResponse) {
 			    			if (err) reject(err);
-			    			console.log('nameResponse', nameResponse);
-							resolve(dateStart2);
+			    			console.log('nameResponse', lastnameResponse);
+				    			dbConnection.query('INSERT into `field_data_field_name_first` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_name_first_value) VALUES (?,?,?,?,?,?,?,?);', ['user', 'user', 0, id,id,'und', 0, postBody.field_name_first], function (err, firstnameResponse) {
+				    			if (err) reject(err);
+				    			console.log('nameResponse', firstnameResponse);
+								resolve(firstnameResponse);
+							})
 			    		});
+			    		})
+			    		
 			    	}
 			    })
 		    	
