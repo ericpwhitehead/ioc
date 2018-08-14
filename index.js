@@ -312,7 +312,15 @@ app.post('/', (req, res) => {
 					updateStatus(entity)
 					.then((resp) => {
 						console.log('first resp', resp)
-						return updateDate(newEnd, entity)
+						if (postBody.roles) {
+							console.log('we got roles, need to update it')
+							updateRole(entity, postBody.roles)
+							.then((roleResp) => {
+								console.log('role update response', roleResp)
+								return updateDate(newEnd, entity)
+							})
+						}
+						return updateDate(newEnd, entity);
 					})
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
