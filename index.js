@@ -241,7 +241,7 @@ app.post('/', (req, res) => {
 						var newYear = year+1
 						var c = new Date(month+'/'+day+'/'+newYear);
 						var originalDate = new Date(month+'/'+day+'/'+year)
-						var startDate - originalDate.toISOString();
+						var startDate = originalDate.toISOString();
 						var newEnd = c.toISOString();
 						console.log('new end', newEnd);
 						console.log('id', postBody.field_infusionsoft_id);
