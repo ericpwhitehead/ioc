@@ -171,7 +171,7 @@ function updateType(userId, label) {
 
 function insertUserInfo(id, postBody, newEnd) {
 	var myPromise = new Promise(function(resolve, reject){
-		var startDate = postBody['field_start_date:start'].toISOString();
+		var startDate = (postBody['field_start_date:start']).toISOString();
 		console.log('start', startDate);
 		    dbConnection.query('INSERT into `field_data_field_member_address` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_member_address_country, field_member_address_administrative_area, field_member_address_locality, field_member_address_postal_code, field_member_address_thoroughfare) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, 'US', postBody['field_member_address:administrative_area'], postBody['field_member_address:locality'], postBody['field_member_address:postal_code'], postBody['field_member_address:thoroughfare'] ], function (err, insertRes2) {
 		    	if (err) {
