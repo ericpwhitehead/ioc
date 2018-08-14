@@ -197,7 +197,6 @@ function insertUserInfo(id, postBody, newEnd) {
 				});
 		})
 		return myPromise;
-	});
 }
 
 
