@@ -169,6 +169,21 @@ function updateType(userId, label) {
 
 }
 
+function insertUserInfo(id, postBody, newEnd) {
+	var myPromise = new Promise(function(resolve, reject){
+		    dbConnection.query('INSERT into `field_data_field_member_address` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_member_address_country, field_member_address_locality, field_member_address_postal_code, field_member_address_thoroughfare) VALUES (?,?,?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, 'US', postBody['field_member_address:administrative_area'], postBody['field_member_address:postal_code'], postBody['field_member_address:thoroughfare'] ], function (err, insertRes2) {
+		    	if (err) {
+			    	console.log('error', err)
+			    	reject(err);
+			    }
+			    console.log('insert to data results', insertRes2)
+			    dbConnection.query('INSERT into `field_data_field_start_date` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_start_date_value, field_start_date_value2) VALUES (?,?,?,?,?,?,?,?,?)', ['user', 'user', 0, id,id,'und', 0, postBody['field_start_date:start'], newEnd ], function (err, dateStart) {
+		    	resolve(insertRes2)
+				});
+		return myPromise;
+	});
+}
+
 
 app.post('/', (req, res) => {
 	var postBody = req.body;
@@ -201,10 +216,8 @@ app.post('/', (req, res) => {
       			//res.json({message: insresult})
       			updateStatus(rand)
 					.then((resp) => {
-						return clearCache(rand)
-					})
-					.then((cacheResponse) => {
-						console.log('cache response', cacheResponse);
+						
+						console.log('cache response', resp);
 
 						var dateString = postBody['field_start_date:end'];
 						var newDate = new Date(dateString);
@@ -216,14 +229,20 @@ app.post('/', (req, res) => {
 						var newEnd = c.toISOString();
 						console.log('new end', newEnd);
 						console.log('id', postBody.field_infusionsoft_id);
-						return updateDate(newEnd, rand)
+						return insertUserInfo(rand, postBody, newEnd)
 					})
 					.then((res) => {
 						console.log('result before updating link', res)
-					// 	return createDrupalInfusionsoftLink(rand, postBody.field_infusionsoft_id)
-					// })
-					// .then((linkRes) => {
-					// 	console.log('link res', linkRes);
+						return createDrupalInfusionsoftLink(rand, postBody.field_infusionsoft_id)
+					})
+					.then((linkRes) => {
+						console.log('link res', linkRes);
+					// 	return insertUserInfo(rand, postBody);
+					// }).then((insertRes) => 
+						return clearCache(rand)
+					})
+					.then((cacheResp) => {
+						console.log('last step - cache cleared: ', cacheResp);
 					})
 					.catch((err) => {
 						console.log('error', err);
