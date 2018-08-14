@@ -168,6 +168,16 @@ function updateType(userId, label) {
 	return myPromise;
 
 }
+function updateRole(userId, role) {
+	var myPromise = new Promise(function(resolve, reject){	
+		dbConnection.query('INSERT into `users_roles` (uid, rid) VALUES (?,?);', [userId, role], function (err, roleResponse) {
+			if (err) reject(err);
+			console.log('roleResponse', roleResponse);
+			resolve(roleResponse);
+		});
+	});
+	return myPromise;
+}
 
 function insertUserInfo(id, postBody, newEnd, startDate) {
 	var myPromise = new Promise(function(resolve, reject){
