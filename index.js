@@ -185,6 +185,7 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 				    	console.log('error', err)
 				    	reject(err);
 			    	} else {
+			    		
 			    		console.log('dateStart', dateStart)
 			    		console.log('firstName', postBody.field_name_first)
 			    		console.log('lastName', postBody.field_name_last)
