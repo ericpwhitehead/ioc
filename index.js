@@ -202,7 +202,7 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 								    			dbConnection.query('INSERT into `field_data_field_name_first` (entity_type, bundle, deleted, entity_id, revision_id, language, delta, field_name_first_value) VALUES (?,?,?,?,?,?,?,?);', ['user', 'user', 0, id,id,'und', 0, postBody.field_name_first], function (err, firstnameResponse) {
 								    			if (err) reject(err);
 								    			console.log('firstnameResponse', firstnameResponse);
-									    			dbConnection.query('INSERT into `users_roles` (uid, rid) VALUES (?,?);', [id, postBody.roles, function (err, roleResponse) {
+									    			dbConnection.query('INSERT into `users_roles` (uid, rid) VALUES (?,?);', [id, postBody.roles], function (err, roleResponse) {
 									    			if (err) reject(err);
 									    			console.log('roleResponse', roleResponse);
 													resolve(roleResponse);
