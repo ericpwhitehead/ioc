@@ -297,6 +297,7 @@ app.post('/', (req, res) => {
 						console.log('error', err);
 					})
 	});
+
 	} else if (len <= 6) {
 		var field_infusionsoft_id_value = postBody.field_infusionsoft_id;
 		console.log('id', field_infusionsoft_id_value);
@@ -308,16 +309,17 @@ app.post('/', (req, res) => {
       				console.log('result', result)
 			      	var entity = result[0].entity_id;
 			      	var dateString = postBody['field_start_date:end'];
-					var newDate = new Date(dateString);
-					var year = newDate.getFullYear();
-					var month = newDate.getMonth()+1;
-					var day = newDate.getDate();
-					var newYear = year+1
-					var c = new Date(month+'/'+day+'/'+newYear);
-					var newEnd = c.toISOString();
-					console.log(newEnd);
-
-
+			      	if (dateString) {
+			      		var newDate = new Date(dateString);
+						var year = newDate.getFullYear();
+						var month = newDate.getMonth()+1;
+						var day = newDate.getDate();
+						var newYear = year+1;
+						var c = new Date(month+'/'+day+'/'+newYear);
+						var newEnd = c.toISOString();
+						console.log(newEnd);
+			      	}
+			      	
 			      	console.log('entity', entity);
 
 					updateStatus(entity)
