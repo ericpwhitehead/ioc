@@ -90,10 +90,10 @@ function clearCache(id) {
 	return myPromise;
 }
 
-function updateStatus(id) {
+function updateStatus(id, status) {
 	console.log('entity id passed from first query', id);
 	var myPromise = new Promise(function(resolve, reject){
-	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[1, id], function (err, statusUpdate) {
+	   			dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[status, id], function (err, statusUpdate) {
 					    if (err) {
 					    	console.log('error', err)
 					    	reject(err);
@@ -260,7 +260,7 @@ app.post('/', (req, res) => {
 			console.log('err', inserterr)
       			if (inserterr) throw inserterr
       			//res.json({message: insresult})
-      			updateStatus(rand)
+      			updateStatus(rand, 1)
 					.then((resp) => {
 						
 						console.log('cache response', resp);
@@ -309,6 +309,12 @@ app.post('/', (req, res) => {
       				console.log('result', result)
 			      	var entity = result[0].entity_id;
 			      	var dateString = postBody['field_start_date:end'];
+			      	var status = postBody['status'];
+			      	if (status == 'Lapsed') {
+			      		var Dstatus = 0;
+			      	} else {
+			      		var Dstatus = 1;
+			      	}
 			      	if (dateString) {
 			      		var newDate = new Date(dateString);
 						var year = newDate.getFullYear();
@@ -319,10 +325,10 @@ app.post('/', (req, res) => {
 						var newEnd = c.toISOString();
 						console.log(newEnd);
 			      	}
-			      	
+
 			      	console.log('entity', entity);
 
-					updateStatus(entity)
+					updateStatus(entity, Dstatus)
 					.then((resp) => {
 						console.log('first resp', resp)
 						if (postBody.roles) {
