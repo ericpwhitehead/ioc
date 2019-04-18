@@ -230,6 +230,10 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 		return myPromise;
 }
 
+app.post('/update', (req, res) => {
+	var postBody = req.body;
+	console.log({postBody});
+})
 
 app.post('/', (req, res) => {
 	var postBody = req.body;
