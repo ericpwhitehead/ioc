@@ -249,6 +249,7 @@ app.post('/update', (req, res) => {
 						console.log('error', err)
 					}
 					console.log({selectUserResult})
+					res.json({msg: 'got it'})
 		 })
 	// dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[status, id], function (err, statusUpdate) {
 	// 	if (err) {
