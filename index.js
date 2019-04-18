@@ -244,7 +244,7 @@ app.post('/update', (req, res) => {
 		 'field_member_address:administrative_area': 'New Hampshire',
 		 'field_member_address:country': 'United States',
 		 'field_member_address:postal_code': '03827' }
-		 dbConnection.query('SELECT * FROM `users` WHERE field_infusionsoft_id_value = ?',[postBody.field_infusionsoft_id], function(err, selectUserResult) {
+		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, selectUserResult) {
 			if (err) {
 						console.log('error', err)
 					}
