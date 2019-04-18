@@ -230,9 +230,34 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 		return myPromise;
 }
 
+//update user
 app.post('/update', (req, res) => {
 	var postBody = req.body;
 	console.log({postBody});
+	var sample = {
+		 field_name_last: 'Chabot',
+		 'field_member_address:thoroughfare': '310 Main Ave',
+		 field_infusionsoft_id: '97213',
+		 mail: 'chabotweb@gmail.co',
+		 field_name_first: 'Missy',
+		 'field_member_address:locality': 'South Hampton',
+		 'field_member_address:administrative_area': 'New Hampshire',
+		 'field_member_address:country': 'United States',
+		 'field_member_address:postal_code': '03827' }
+		 dbConnection.query('SELECT * FROM `users` WHERE field_infusionsoft_id_value = ?',[postBody.field_infusionsoft_id], function(err, selectUserResult) {
+			if (err) {
+						console.log('error', err)
+					}
+					console.log({selectUserResult})
+		 })
+	// dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[status, id], function (err, statusUpdate) {
+	// 	if (err) {
+	// 		console.log('error', err)
+	// 		reject(err);
+	// 	}
+	// 	console.log(statusUpdate)
+	// 	console.log(statusUpdate.affectedRows + " record(s) updated in users");
+	// });
 })
 
 app.post('/', (req, res) => {
