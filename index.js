@@ -233,8 +233,9 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 function updateAddressInfo(postBody, uid) {
 	var myPromise = new Promise(function(resolve, reject){	
 		console.log({postBody})
+		console.log(uid, typeof uid)
 // dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ labelid, userId], function (err, result2) {
-		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], uid], function(err, updateAddressResponse) {
+		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ? WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], uid], function(err, updateAddressResponse) {
 			if (err) reject(err);
 				console.log('updateAddressResponse', updateAddressResponse)
 				resolve(updateAddressResponse);
