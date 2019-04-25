@@ -236,18 +236,23 @@ app.post('/update', (req, res) => {
 	console.log({postBody});
 	var sample = {
 		 field_name_last: 'Chabot',
-		 'field_member_address:thoroughfare': '310 Main Ave',
-		 field_infusionsoft_id: '97213',
+		 'field_member_address:thoroughfare': '310 Main Ave', //field_revision_field_member_address
+		 field_infusionsoft_id: '97213', //field_revision_field_member_address
 		 mail: 'chabotweb@gmail.co',
 		 field_name_first: 'Missy',
-		 'field_member_address:locality': 'South Hampton',
-		 'field_member_address:administrative_area': 'New Hampshire',
-		 'field_member_address:country': 'United States',
-		 'field_member_address:postal_code': '03827' }
+		 'field_member_address:locality': 'South Hampton', //field_revision_field_member_address
+		 'field_member_address:administrative_area': 'New Hampshire', //field_revision_field_member_address
+		 'field_member_address:country': 'United States', //field_revision_field_member_address
+		 'field_member_address:postal_code': '03827' } //field_revision_field_member_address
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
 			if (err) throw err
-				console.log('result', result)
-					res.json({msg: 'got it'})
+				console.log('result', result.uid)
+				res.json({msg: 'got it'})
+				console.log('address passed: ', postBody['field_member_address:thoroughfare'])
+				dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ? WHERE entity_id = ?',[postBody['field_member_address:thoroughfare'], result.uid], function(err, result2) {
+					if (err) throw err
+						console.log('result2', result2)
+				 })
 		 })
 	// dbConnection.query('UPDATE `users` SET `status` = ? WHERE `uid` = ?',[status, id], function (err, statusUpdate) {
 	// 	if (err) {
