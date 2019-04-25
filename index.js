@@ -234,7 +234,7 @@ function updateAddressInfo(postBody, uid) {
 	var myPromise = new Promise(function(resolve, reject){	
 		console.log({postBody})
 // dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ labelid, userId], function (err, result2) {
-		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ? WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], uid], function(err, updateAddressResponse) {
+		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, `field_member_address_postal_code` = ?, `field_member_address_locality` = ? WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], postBody['field_member_address:postal_code'], postBody['field_member_address:locality'], uid], function(err, updateAddressResponse) {
 			if (err) reject(err);
 				console.log('updateAddressResponse', updateAddressResponse)
 				resolve(updateAddressResponse);
@@ -251,14 +251,14 @@ app.post('/update', (req, res) => {
 	console.log({postBody});
 	var sample = {
 		 field_name_last: 'Chabot',
-		 'field_member_address:thoroughfare': '310 Main Ave', //field_revision_field_member_address
+		 //'field_member_address:thoroughfare': '310 Main Ave', //field_revision_field_member_address
 		 field_infusionsoft_id: '97213', // dont touch
 		 mail: 'chabotweb@gmail.co', // dont touch
 		 field_name_first: 'Missy',
-		 //'field_member_address:locality': 'South Hampton', //field_revision_field_member_address
+		 'field_member_address:locality': 'South Hampton', //field_revision_field_member_address
 		 //'field_member_address:administrative_area': 'New Hampshire', //field_revision_field_member_address
 		 //'field_member_address:country': 'United States', //field_revision_field_member_address
-		 'field_member_address:postal_code': '03827' } //field_revision_field_member_address
+		 //'field_member_address:postal_code': '03827' } //field_revision_field_member_address
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
 			if (err) throw err
 				console.log('result', result)
