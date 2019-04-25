@@ -230,11 +230,11 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 		return myPromise;
 }
 
-function updateAddressInfo(postBody) {
+function updateAddressInfo(postBody, uid) {
 	var myPromise = new Promise(function(resolve, reject){	
 		console.log({postBody})
 
-		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, WHERE entity_id = ?',[postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], result[0].uid], function(err, updateAddressResponse) {
+		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, WHERE entity_id = ?',[postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], uid], function(err, updateAddressResponse) {
 			if (err) reject(err);
 				console.log('updateAddressResponse', updateAddressResponse)
 				resolve(roleResponse);
@@ -267,7 +267,7 @@ app.post('/update', (req, res) => {
 				console.log('address passed: ', postBody['field_member_address:thoroughfare'])
 				
 				
-						updateAddressInfo(postBody)
+						updateAddressInfo(postBody, result[0].uid)
 						.then(response => {
 							console.log({response})
 						})
