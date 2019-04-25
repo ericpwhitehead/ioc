@@ -230,7 +230,7 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 		return myPromise;
 }
 
-function updateRole(postBody) {
+function updateAddressInfo(postBody) {
 	var myPromise = new Promise(function(resolve, reject){	
 		console.log({postBody})
 
@@ -270,6 +270,9 @@ app.post('/update', (req, res) => {
 						updateAddressInfo(postBody)
 						.then(response => {
 							console.log({response})
+						})
+						.catch((err) => {
+							console.log('error', err);
 						})
 		 })
 })
