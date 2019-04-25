@@ -253,9 +253,14 @@ function updateName(postBody, uid) {
 		// field_data_field_name_last
 		dbConnection.query('UPDATE `field_data_field_name_first` SET `field_name_first_value` = ? WHERE `entity_id` = ?;' , [postBody['field_name_first'],  uid], function(err, updateFirstNameRes) {
 			if (err) reject(err);
-				console.log('updateFirstNameRes', updateFirstNameRes)
+				console.log('updateFirstNameRes', updateFirstNameRes);
+				// resolve(updateFirstNameRes);
 
-				resolve(updateFirstNameRes);
+				dbConnection.query('UPDATE `field_data_field_name_last` SET `field_name_last_value` = ? WHERE `entity_id` = ?;' , [postBody['field_name_last'],  uid], function(err, updatelastNameRes) {
+					if (err) reject(err);
+						console.log('updatelastNameRes', updatelastNameRes);
+						// resolve(updatelastNameRes);
+				 })
 		 })
 
 	});
@@ -268,15 +273,15 @@ app.post('/update', (req, res) => {
 	var postBody = req.body;
 	console.log({postBody});
 		let sample = {
-			field_name_first: 'Sue',
-			field_name_last: 'Brennick',
-			'field_member_address:thoroughfare': '115 Mill Street',
+			// field_name_first: 'Sue',
+			// field_name_last: 'Brennick',
+			// 'field_member_address:thoroughfare': '115 Mill Street',
 			field_infusionsoft_id: '3',
 			mail: 'Sue.Brennick@InstituteofCoaching.org',
-			'field_member_address:locality': 'Belmont',
-			'field_member_address:administrative_area': 'MA',
-			'field_member_address:country': '',
-			'field_member_address:postal_code': '01720' 
+			// 'field_member_address:locality': 'Belmont',
+			// 'field_member_address:administrative_area': 'MA',
+			// 'field_member_address:country': '',
+			// 'field_member_address:postal_code': '01720' 
 		}
 	
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
