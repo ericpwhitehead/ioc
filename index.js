@@ -246,7 +246,8 @@ app.post('/update', (req, res) => {
 		 'field_member_address:postal_code': '03827' } //field_revision_field_member_address
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
 			if (err) throw err
-				console.log('result', result.uid)
+				console.log('result', result)
+				console.log('result uid', result.uid)
 				res.json({msg: 'got it'})
 				console.log('address passed: ', postBody['field_member_address:thoroughfare'])
 				dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ? WHERE entity_id = ?',[postBody['field_member_address:thoroughfare'], result.uid], function(err, result2) {
