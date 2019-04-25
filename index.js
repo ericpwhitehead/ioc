@@ -259,6 +259,7 @@ app.post('/update', (req, res) => {
 		 //'field_member_address:administrative_area': 'New Hampshire', //field_revision_field_member_address
 		 //'field_member_address:country': 'United States', //field_revision_field_member_address
 		 //'field_member_address:postal_code': '03827' } //field_revision_field_member_address
+	}
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
 			if (err) throw err
 				console.log('result', result)
