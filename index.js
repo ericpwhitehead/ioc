@@ -237,7 +237,7 @@ function updateAddressInfo(postBody, uid) {
 		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, WHERE entity_id = ?',[postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], uid], function(err, updateAddressResponse) {
 			if (err) reject(err);
 				console.log('updateAddressResponse', updateAddressResponse)
-				resolve(roleResponse);
+				resolve(updateAddressResponse);
 		 })
 
 	});
