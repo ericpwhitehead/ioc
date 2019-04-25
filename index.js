@@ -233,11 +233,29 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 function updateAddressInfo(postBody, uid) {
 	var myPromise = new Promise(function(resolve, reject){	
 		console.log({postBody})
-// dbConnection.query('UPDATE `field_data_field_member_type` SET `field_member_type_target_id` = ? WHERE `entity_id` = ?',[ labelid, userId], function (err, result2) {
 		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, `field_member_address_postal_code` = ?, `field_member_address_locality` = ? WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], postBody['field_member_address:postal_code'], postBody['field_member_address:locality'], uid], function(err, updateAddressResponse) {
 			if (err) reject(err);
 				console.log('updateAddressResponse', updateAddressResponse)
 				resolve(updateAddressResponse);
+		 })
+
+	});
+	return myPromise;
+}
+
+function updateName(postBody, uid) {
+	var myPromise = new Promise(function(resolve, reject){	
+		console.log('inside updateName', {postBody})
+		// field_name_first: 'Sue',
+		//`field_data_field_name_first` 
+
+		// 	field_name_last: 'Brennick',
+		// field_data_field_name_last
+		dbConnection.query('UPDATE `field_data_field_name_first` SET `field_name_first_value` = ? WHERE `entity_id` = ?;' , [postBody['field_name_first'],  uid], function(err, updateFirstNameRes) {
+			if (err) reject(err);
+				console.log('updateFirstNameRes', updateFirstNameRes)
+
+				resolve(updateFirstNameRes);
 		 })
 
 	});
@@ -249,17 +267,18 @@ function updateAddressInfo(postBody, uid) {
 app.post('/update', (req, res) => {
 	var postBody = req.body;
 	console.log({postBody});
-	var sample = {
-		 field_name_last: 'Chabot',
-		 //'field_member_address:thoroughfare': '310 Main Ave', //field_revision_field_member_address
-		 field_infusionsoft_id: '97213', // dont touch
-		 mail: 'chabotweb@gmail.co', // dont touch
-		 field_name_first: 'Missy',
-		 'field_member_address:locality': 'South Hampton', //field_revision_field_member_address
-		 //'field_member_address:administrative_area': 'New Hampshire', //field_revision_field_member_address
-		 //'field_member_address:country': 'United States', //field_revision_field_member_address
-		 //'field_member_address:postal_code': '03827' } //field_revision_field_member_address
-	}
+		let sample = {
+			field_name_first: 'Sue',
+			field_name_last: 'Brennick',
+			'field_member_address:thoroughfare': '115 Mill Street',
+			field_infusionsoft_id: '3',
+			mail: 'Sue.Brennick@InstituteofCoaching.org',
+			'field_member_address:locality': 'Belmont',
+			'field_member_address:administrative_area': 'MA',
+			'field_member_address:country': '',
+			'field_member_address:postal_code': '01720' 
+		}
+	
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
 			if (err) throw err
 				console.log('result', result)
@@ -269,8 +288,12 @@ app.post('/update', (req, res) => {
 				
 				
 						updateAddressInfo(postBody, result[0].uid)
-						.then(response => {
-							console.log({response})
+						.then(addressResponse => {
+							console.log({addressResponse})
+							return updateName(postBody, result[0].uid);
+						})
+						.then(afterNameUpdate => {
+							console.log({afterNameUpdate})
 						})
 						.catch((err) => {
 							console.log('error', err);
