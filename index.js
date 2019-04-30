@@ -233,7 +233,7 @@ function insertUserInfo(id, postBody, newEnd, startDate) {
 function updateAddressInfo(postBody, uid) {
 	var myPromise = new Promise(function(resolve, reject){	
 		console.log({postBody})
-		dbConnection.query('UPDATE `field_revision_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, `field_member_address_postal_code` = ?, `field_member_address_locality` = ? WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], postBody['field_member_address:postal_code'], postBody['field_member_address:locality'], uid], function(err, updateAddressResponse) {
+		dbConnection.query('UPDATE `field_data_field_member_address` SET `field_member_address_thoroughfare` = ?, `field_member_address_administrative_area` = ?, `field_member_address_country` = ?, `field_member_address_postal_code` = ?, `field_member_address_locality` = ? WHERE `entity_id` = ?;' , [postBody['field_member_address:thoroughfare'], postBody['field_member_address:administrative_area'], postBody['field_member_address:country'], postBody['field_member_address:postal_code'], postBody['field_member_address:locality'], uid], function(err, updateAddressResponse) {
 			if (err) reject(err);
 				console.log('updateAddressResponse', updateAddressResponse)
 				resolve(updateAddressResponse);
@@ -278,6 +278,7 @@ app.post('/update', (req, res) => {
 			// 'field_member_address:thoroughfare': '115 Mill Street',
 			field_infusionsoft_id: '3',
 			mail: 'Sue.Brennick@InstituteofCoaching.org',
+			// 'field_member_address:thoroughfare': '115 Mill Street',
 			// 'field_member_address:locality': 'Belmont',
 			// 'field_member_address:administrative_area': 'MA',
 			// 'field_member_address:country': '',
@@ -286,12 +287,8 @@ app.post('/update', (req, res) => {
 	
 		 dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[postBody.mail], function(err, result) {
 			if (err) throw err
-				console.log('result', result)
-				console.log('result uid', result[0].uid)
+			
 				res.json({msg: 'got it'})
-				console.log('address passed: ', postBody['field_member_address:thoroughfare'])
-				
-				
 						updateAddressInfo(postBody, result[0].uid)
 						.then(addressResponse => {
 							console.log({addressResponse})
@@ -299,6 +296,10 @@ app.post('/update', (req, res) => {
 						})
 						.then(afterNameUpdate => {
 							console.log({afterNameUpdate})
+							return clearCache(result[0].uid)
+						})
+						.then(afterClearCache => {
+							console.log({afterClearCache})
 						})
 						.catch((err) => {
 							console.log('error', err);
