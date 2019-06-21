@@ -549,6 +549,11 @@ app.post('/update', (req, res) => {
 						})
 		 })
 })
+//renewal/lapsed
+app.post('/autorenewals', (req, res) => {
+	res.json({msg: "it works"});
+	// 
+});
 
 app.post('/', (req, res) => {
 
