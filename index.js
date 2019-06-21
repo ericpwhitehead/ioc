@@ -551,6 +551,11 @@ app.post('/update', (req, res) => {
 })
 
 app.post('/', (req, res) => {
+
+	let shortCountry = countries.find(function(currentValue) {
+		return currentValue.name == postBody['field_member_address:country'];
+	})
+	console.log({shortCountry})
 	var postBody = req.body;
 
 	var len = Object.keys(postBody).length;
