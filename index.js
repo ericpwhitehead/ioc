@@ -550,8 +550,9 @@ app.post('/update', (req, res) => {
 		 })
 })
 //renewal/lapsed
-app.post('/autorenewals', (req, res) => {
+app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
+	console.log(req.params.time)
 	res.json({msg: "it works"});
 	// 
 });
