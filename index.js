@@ -562,7 +562,49 @@ app.post('/autorenewals/:time', (req, res) => {
 	}
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
 		if (err) throw err
-		console.log('users uid: ', result[0].uid)
+		console.log('users uid: ', result[0].uid);
+		var dateString = postBody['field_start_date:end'];
+		// if (dateString) {
+		// 	var newDate = new Date(dateString);
+		// 	var year = newDate.getFullYear();
+		// 	var month = newDate.getMonth()+1;
+		// 	var day = newDate.getDate();
+		// 	var newYear = year+1;
+		// 	var c = new Date(month+'/'+day+'/'+newYear);
+		// 	var newEnd = c.toISOString();
+		// 	console.log(newEnd);
+		// }
+		updateStatus(entity, 1)
+					.then((resp) => {
+						console.log('first resp', resp)
+						if (postBody.roles) {
+							console.log('we got roles, need to update it')
+							updateRole(entity, postBody.roles)
+							.then((roleResp) => {
+								console.log('role update response', roleResp)
+								return updateDate(newEnd, entity)
+							})
+						}
+						return updateDate(newEnd, entity);
+					})
+					.then((dateResp) => {
+						console.log('cache response', dateResp);
+						if (postBody['field_member_type:label']) {
+							console.log('we got label, need to update it')
+							updateType(entity, postBody['field_member_type:label'])
+							.then((typeResp) => {
+								console.log('type update resp', typeResp)
+								return clearCache(entity)
+							})
+						}
+						return clearCache(entity)
+					})
+					.then((cacheResp) => {
+						console.log('last respononse', cacheResp);
+					})
+					.catch((err) => {
+						console.log('error', err);
+					})
 	})
 	res.json({msg: "it works"});
 	// 
