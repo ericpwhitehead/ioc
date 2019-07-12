@@ -576,7 +576,7 @@ app.post('/autorenewals/:time', (req, res) => {
 		// 	var newEnd = c.toISOString();
 		// 	console.log(newEnd);
 		// }
-		var newDate = new Date(date);
+		var newDate = new Date(dateString);
 		var isoRenewalDate = newDate.toISOString()
 		console.log({newDate, isoRenewalDate})
 
