@@ -576,19 +576,11 @@ app.post('/autorenewals/:time', (req, res) => {
 		// 	var newEnd = c.toISOString();
 		// 	console.log(newEnd);
 		// }
-		updateStatus(entity, 1)
-					.then((resp) => {
-						console.log('first resp', resp)
-						if (postBody.roles) {
-							console.log('we got roles, need to update it')
-							updateRole(entity, postBody.roles)
-							.then((roleResp) => {
-								console.log('role update response', roleResp)
-								return updateDate(newEnd, entity)
-							})
-						}
-						return updateDate(newEnd, entity);
-					})
+		var newDate = new Date(date);
+		var isoRenewalDate = newDate.toISOString()
+		console.log({newDate, isoRenewalDate})
+
+		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
 						if (postBody['field_member_type:label']) {
