@@ -560,6 +560,7 @@ app.post('/autorenewals/:time', (req, res) => {
 	if (timeFrame === 'year') {
 		console.log('do for a year');
 	}
+	var postBody = req.body;
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
 		if (err) throw err
 		console.log('users uid: ', result[0].uid);
