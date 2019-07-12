@@ -552,7 +552,18 @@ app.post('/update', (req, res) => {
 //renewal/lapsed
 app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
-	console.log(req.params.time)
+	const timeFrame = req.params.time;
+	console.log({timeFrame})
+	if (timeFrame === 'month') {
+		console.log('do for a month');
+	}
+	if (timeFrame === 'year') {
+		console.log('do for a year');
+	}
+	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
+		if (err) throw err
+		console.log('users uid: ', result[0].uid)
+	})
 	res.json({msg: "it works"});
 	// 
 });
