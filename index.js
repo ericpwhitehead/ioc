@@ -564,6 +564,7 @@ app.post('/autorenewals/:time', (req, res) => {
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
 		if (err) throw err
 		console.log('users uid: ', result[0].uid);
+		var entity = result[0].uid;
 		var dateString = postBody['field_start_date:end'];
 		// if (dateString) {
 		// 	var newDate = new Date(dateString);
