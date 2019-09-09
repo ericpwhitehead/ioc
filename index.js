@@ -567,16 +567,16 @@ app.post('/autorenewals/:time', (req, res) => {
 		var entity = result[0].uid;
 		var dateString = postBody['field_start_date:end'];
 		// if (dateString) {
-		// 	var newDate = new Date(dateString);
-		// 	var year = newDate.getFullYear();
-		// 	var month = newDate.getMonth()+1;
-		// 	var day = newDate.getDate();
-		// 	var newYear = year+1;
-		// 	var c = new Date(month+'/'+day+'/'+newYear);
-		// 	var newEnd = c.toISOString();
-		// 	console.log(newEnd);
+			var newDate = new Date(dateString);
+			var year = newDate.getFullYear();
+			var month = newDate.getMonth()+1;
+			var day = newDate.getDate();
+			var newYear = year;
+			var c = new Date(month+'/'+day+'/'+newYear);
+			var newEnd = c.toISOString();
+			console.log(newEnd);
 		// }
-		var newDate = new Date(dateString);
+		var newDate = new Date(newEnd);
 		var isoRenewalDate = newDate.toISOString()
 		console.log({newDate, isoRenewalDate})
 
