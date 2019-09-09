@@ -570,6 +570,7 @@ app.post('/autorenewals/:time', (req, res) => {
 			var newDate = new Date(dateString);
 			var year = newDate.getFullYear();
 			var month = newDate.getMonth()+1;
+			console.log({month})
 			var day = newDate.getDate();
 			var newYear = year;
 			var c = new Date(month+'/'+day+'/'+newYear);
@@ -580,7 +581,7 @@ app.post('/autorenewals/:time', (req, res) => {
 		var isoRenewalDate = newDate.toISOString()
 		console.log({newDate, isoRenewalDate})
 
-		
+
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
