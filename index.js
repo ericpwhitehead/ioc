@@ -553,43 +553,36 @@ app.post('/update', (req, res) => {
 app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
 	const timeFrame = req.params.time;
+	var newDate = new Date(dateString);
 	console.log({timeFrame})
 	if (timeFrame === 'month') {
-		console.log('do for a month');
+		var year = newDate.getFullYear();
+		var month = newDate.getMonth();
+		var newMonth = month+1;
+		if (newMonth === 12) {
+			var newYear = year+1;
+			var newMonth = month;
+		} else {
+			var newYear = year;
+			var newMonth = month+1;
+		}
 	}
 	if (timeFrame === 'year') {
-		console.log('do for a year');
+		var year = newDate.getFullYear()+1;
+		var newMonth = newDate.getMonth();
 	}
+		var day = newDate.getDate();
+		var c = new Date(newMonth+'/'+day+'/'+newYear);
+		var newEnd = c.toISOString();
+		console.log(newEnd);
 	var postBody = req.body;
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
 		if (err) throw err
 		console.log('users uid: ', result[0].uid);
 		var entity = result[0].uid;
-		var dateString = postBody['field_start_date:end'];
-		// if (dateString) {
-			var newDate = new Date(dateString);
-			var year = newDate.getFullYear();
-			var month = newDate.getMonth()+1;
-			console.log({month})
-			var newMonth = month+1;
-			console.log(newMonth);
-			if (newMonth === 12) {
-				var newYear = year+1;
-				var newMonth = month;
-			} else {
-				var newYear = year;
-				var newMonth = month+1;
-			}
-			var day = newDate.getDate();
-			var c = new Date(newMonth+'/'+day+'/'+newYear);
-			var newEnd = c.toISOString();
-			console.log(newEnd);
-		// }
 		var newDate = new Date(newEnd);
 		var isoRenewalDate = newDate.toISOString()
 		console.log({newDate, isoRenewalDate})
-
-
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
