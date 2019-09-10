@@ -577,7 +577,7 @@ app.post('/autorenewals/:time', (req, res) => {
 		var newMonth = newDate.getMonth();
 
 		var day = newDate.getDate();
-		var c = new Date(newMonth+'/'+day+'/'+newYear);
+		var c = new Date(newMonth+'/'+day+'/'+year);
 		var newEnd = c.toISOString();
 		console.log(newEnd);
 	}
