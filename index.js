@@ -566,15 +566,22 @@ app.post('/autorenewals/:time', (req, res) => {
 			var newYear = year;
 			var newMonth = month+1;
 		}
-	}
-	if (timeFrame === 'year') {
-		var year = newDate.getFullYear()+1;
-		var newMonth = newDate.getMonth();
-	}
+
 		var day = newDate.getDate();
 		var c = new Date(newMonth+'/'+day+'/'+newYear);
 		var newEnd = c.toISOString();
 		console.log(newEnd);
+	}
+	if (timeFrame === 'year') {
+		var year = newDate.getFullYear()+1;
+		var newMonth = newDate.getMonth();
+
+		var day = newDate.getDate();
+		var c = new Date(newMonth+'/'+day+'/'+newYear);
+		var newEnd = c.toISOString();
+		console.log(newEnd);
+	}
+		
 	var postBody = req.body;
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
 		if (err) throw err
