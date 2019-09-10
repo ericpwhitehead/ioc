@@ -553,7 +553,7 @@ app.post('/update', (req, res) => {
 app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
 	const timeFrame = req.params.time;
-	var newDate = new Date(dateString);
+	var newDate = new Date();
 	console.log({timeFrame})
 	if (timeFrame === 'month') {
 		var year = newDate.getFullYear();
