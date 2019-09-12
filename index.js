@@ -555,22 +555,22 @@ app.post('/autorenewals/:time', (req, res) => {
 	const timeFrame = req.params.time;
 	var newDate = new Date();
 	console.log({timeFrame})
+	var month = newDate.getMonth();
+	var newMonth = month+1;
+	
 	if (timeFrame === 'month') {
 		var year = newDate.getFullYear();
-		var month = newDate.getMonth();
-		var newMonth = month+1;
 		if (newMonth === 12) {
 			var newYear = year+1;
 			var newMonth = month;
 		} else {
 			var newYear = year;
-			var newMonth = month+1;
 		}
 
 		var day = newDate.getDate();
 		var c = new Date(newMonth+'/'+day+'/'+newYear);
 		var newEnd = c.toISOString();
-		console.log(newEnd);
+		console.log({newEnd});
 	}
 	if (timeFrame === 'year') {
 		var year = newDate.getFullYear()+1;
@@ -579,7 +579,7 @@ app.post('/autorenewals/:time', (req, res) => {
 		var day = newDate.getDate();
 		var c = new Date(newMonth+'/'+day+'/'+year);
 		var newEnd = c.toISOString();
-		console.log(newEnd);
+		console.log({newEnd});
 	}
 		
 	var postBody = req.body;
