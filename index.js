@@ -573,8 +573,7 @@ app.post('/autorenewals/:time', (req, res) => {
 	}
 	if (timeFrame === 'year') {
 		var year = newDate.getFullYear()+1;
-		var newMonth = newDate.getMonth();
-
+		
 		var day = newDate.getDate();
 		var c = new Date(newMonth+'/'+day+'/'+year);
 		var newEnd = c.toISOString();
