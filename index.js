@@ -557,7 +557,6 @@ app.post('/autorenewals/:time', (req, res) => {
 	console.log({timeFrame})
 	var month = newDate.getMonth();
 	var newMonth = month+2;
-	let newEnd;
 	if (timeFrame === 'month') {
 		var year = newDate.getFullYear();
 		if (newMonth === 12) {
