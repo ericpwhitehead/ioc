@@ -599,7 +599,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				console.log({newEnd});
 
 				console.log({currentEnd, newDate})
-				isoRenewalDate = newEnd.toISOString();
+				isoRenewalDate = newEnd;
 				console.log({isoRenewalDate})
 			  });
 		} else {
