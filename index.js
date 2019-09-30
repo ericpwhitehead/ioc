@@ -571,16 +571,6 @@ app.post('/autorenewals/:time', (req, res) => {
 		var newEnd = c.toISOString();
 		console.log({newEnd});
 	}
-	if (timeFrame === 'year') {
-		var year = newDate.getFullYear()+1;
-
-		var day = newDate.getDate();
-		var c = new Date(newMonth+'/'+day+'/'+year);
-		var newEnd = c.toISOString();
-		console.log({newEnd});
-
-		
-	}
 		
 	var postBody = req.body;
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
@@ -594,7 +584,22 @@ app.post('/autorenewals/:time', (req, res) => {
 			console.log(`get end date for entity: ${entity}`);
 			dbConnection.query('SELECT `field_start_date_value2` FROM `field_data_field_start_date` where `entity_id` = ?',[ entity], function (err, currentEnd) {
 				if (err) throw err;
-				console.log({currentEnd: currentEnd[0].field_start_date_value2})
+				console.log({currentEnd: currentEnd[0].field_start_date_value2});
+				var newDate = new Date(currentEnd);
+
+				var month = newDate.getMonth();
+				var newMonth = month+2;
+
+				var year = newDate.getFullYear()+1;
+
+				var day = newDate.getDate()+1;
+				var c = new Date(newMonth+'/'+day+'/'+year);
+				var newEnd = c.toISOString();
+				console.log({newEnd});
+
+				console.log({currentEnd, newDate})
+				isoRenewalDate = newDate.toISOString();
+				console.log({isoRenewalDate})
 			  });
 		}
 		updateDate(isoRenewalDate, entity)
