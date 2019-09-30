@@ -589,7 +589,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				var newDate = new Date(currentEnd[0].field_start_date_value2);
 
 				var month = newDate.getMonth();
-				var newMonth = month+2;
+				var newMonth = month+1;
 
 				var year = newDate.getFullYear()+1;
 
