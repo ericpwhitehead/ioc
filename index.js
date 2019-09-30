@@ -578,7 +578,7 @@ app.post('/autorenewals/:time', (req, res) => {
 		console.log('users uid: ', result[0].uid);
 		var entity = result[0].uid;
 		var newDate = new Date(newEnd);
-		var isoRenewalDate = newDate.toISOString()
+		
 		console.log({newDate, isoRenewalDate});
 		if (timeFrame === 'year') {
 			console.log(`get end date for entity: ${entity}`);
@@ -601,6 +601,8 @@ app.post('/autorenewals/:time', (req, res) => {
 				isoRenewalDate = newDate.toISOString();
 				console.log({isoRenewalDate})
 			  });
+		} else {
+			var isoRenewalDate = newDate.toISOString()
 		}
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
