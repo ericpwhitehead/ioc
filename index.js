@@ -585,7 +585,7 @@ app.post('/autorenewals/:time', (req, res) => {
 			dbConnection.query('SELECT `field_start_date_value2` FROM `field_data_field_start_date` where `entity_id` = ?',[ entity], function (err, currentEnd) {
 				if (err) throw err;
 				console.log({currentEnd: currentEnd[0].field_start_date_value2});
-				var newDate = new Date(currentEnd);
+				var newDate = new Date(currentEnd[0].field_start_date_value2);
 
 				var month = newDate.getMonth();
 				var newMonth = month+2;
