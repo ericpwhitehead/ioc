@@ -602,6 +602,25 @@ app.post('/autorenewals/:time', (req, res) => {
 				console.log({currentEnd, newDate})
 				isoRenewalDate = newEnd;
 				console.log({isoRenewalDate})
+				updateDate(isoRenewalDate, entity)
+					.then((dateResp) => {
+						console.log('cache response', dateResp);
+						if (postBody['field_member_type:label']) {
+							console.log('we got label, need to update it')
+							updateType(entity, postBody['field_member_type:label'])
+							.then((typeResp) => {
+								console.log('type update resp', typeResp)
+								return clearCache(entity)
+							})
+						}
+						return clearCache(entity)
+					})
+					.then((cacheResp) => {
+						console.log('last respononse', cacheResp);
+					})
+					.catch((err) => {
+						console.log('error', err);
+					})
 			  });
 		} else {
 			isoRenewalDate = newDate.toISOString()
