@@ -594,7 +594,7 @@ app.post('/autorenewals/:time', (req, res) => {
 			console.log(`get end date for entity: ${entity}`);
 			dbConnection.query('SELECT `field_start_date_value2` FROM `field_data_field_start_date` where `entity_id` = ?',[ entity], function (err, currentEnd) {
 				if (err) throw err;
-				console.log({currentEnd: currentEnd.field_start_date_value2})
+				console.log({currentEnd: currentEnd[0]})
 			  });
 		}
 		updateDate(isoRenewalDate, entity)
