@@ -580,6 +580,7 @@ app.post('/autorenewals/:time', (req, res) => {
 		var newDate = new Date(newEnd);
 		
 		console.log({newDate, isoRenewalDate});
+		var isoRenewalDate;
 		if (timeFrame === 'year') {
 			console.log(`get end date for entity: ${entity}`);
 			dbConnection.query('SELECT `field_start_date_value2` FROM `field_data_field_start_date` where `entity_id` = ?',[ entity], function (err, currentEnd) {
@@ -603,7 +604,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				console.log({isoRenewalDate})
 			  });
 		} else {
-			var isoRenewalDate = newDate.toISOString()
+			isoRenewalDate = newDate.toISOString()
 		}
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
