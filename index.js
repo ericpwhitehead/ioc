@@ -624,7 +624,7 @@ app.post('/autorenewals/:time', (req, res) => {
 			  });
 		} else {
 			isoRenewalDate = newDate.toISOString()
-		}
+		
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
@@ -644,6 +644,7 @@ app.post('/autorenewals/:time', (req, res) => {
 					.catch((err) => {
 						console.log('error', err);
 					})
+				}
 	})
 	res.json({msg: "it works"});
 	// 
