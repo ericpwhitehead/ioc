@@ -265,7 +265,7 @@ app.use(bodyParser.json());
 
 
 var remote_options = {
-    host:'50.87.137.25',
+    host:'70.39.249.13',
     port: 3306
 };
 
@@ -286,9 +286,12 @@ var sock_options = {
 var sockConn = new SocksConnection(remote_options, sock_options);
 
 var dbConnection = mysql.createConnection({
-    user: 'iocdevco_eric0',
-    database: 'iocdevco_iocdev',
-    password: 'brick8',
+	//user: 'iocdevco_eric0',
+	user: 'instit51_infusionsoft_post',
+	//database: 'iocdevco_iocdev',
+	database: 'instit51_iocdev',
+	//password: 'brick8',
+	password: 'm!.KQ[4EWP_B',
     stream: sockConn
 });
 
