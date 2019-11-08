@@ -674,7 +674,7 @@ app.post('/', (req, res) => {
 
 		// password1ioc
 		//var values = [rand, postBody.name, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', rightNow, 1, postBody.mail]
-		var values = [rand, postBody.mail, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', Number((rightNow).toString().substring(0, 10)), 1, postBody.mail]
+		var values = [rand, postBody.mail, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', rightNow, 1, postBody.mail]
 		console.log('values', values);
 		console.log('val len', values.length)
 
