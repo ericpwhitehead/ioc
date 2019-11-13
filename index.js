@@ -700,10 +700,11 @@ app.post('/', (req, res) => {
 						var newYear = year+1
 						var c = new Date(month+'/'+day+'/'+newYear);
 						var originalDate = new Date(month+'/'+day+'/'+year)
-						var startDate = originalDate.toISOString();
+						var startDate = originalDate.toISOString().replace('T', ' ').replace('Z', '');
 						var newEnd = c.toISOString().replace('T', ' ').replace('Z', '');
 						console.log('new end', newEnd);
 						console.log('new end without miliseconds', newEnd.split('.')[0])
+						console.log('new end without miliseconds', startDate.split('.')[0])
 						console.log('id', postBody.field_infusionsoft_id);
 						return insertUserInfo(rand, postBody, newEnd, startDate)
 					})
