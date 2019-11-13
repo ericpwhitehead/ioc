@@ -558,23 +558,11 @@ app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
 	const timeFrame = req.params.time;
 	var newDate = new Date();
-	console.log({timeFrame})
-	var month = newDate.getMonth();
-	var newMonth = month+2;
-	if (timeFrame === 'month') {
-		var year = newDate.getFullYear();
-		if (newMonth === 12) {
-			var newYear = year+1;
-			var newMonth = month;
-		} else {
-			var newYear = year;
-		}
+	console.log({timeFrame});
 
-		var day = newDate.getDate();
-		var c = new Date(newMonth+'/'+day+'/'+newYear);
-		var newEnd = c.toISOString()
-		console.log({newEnd});
-	}
+	// var month = newDate.getMonth();
+	// var newMonth = month+2;
+	
 		
 	var postBody = req.body;
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
@@ -585,6 +573,8 @@ app.post('/autorenewals/:time', (req, res) => {
 		
 		console.log({newDate, isoRenewalDate});
 		var isoRenewalDate;
+
+		//yearly renewal
 		if (timeFrame === 'year') {
 			console.log(`get end date for entity: ${entity}`);
 			dbConnection.query('SELECT `field_start_date_value2` FROM `field_data_field_start_date` where `entity_id` = ?',[ entity], function (err, currentEnd) {
@@ -601,12 +591,9 @@ app.post('/autorenewals/:time', (req, res) => {
 				console.log({newMonth, day, year});
 				var c = new Date(newMonth+'/'+day+'/'+year);
 				var newEnd = c.toISOString().replace('T', ' ').replace('Z', '');
-				console.log({newEnd});
-
-				console.log({currentEnd, newDate})
-				isoRenewalDate = newEnd;
-				console.log({isoRenewalDate})
-				updateDate(isoRenewalDate, entity)
+				console.log('zebra ', {newEnd});
+				
+				updateDate(newEnd, entity)
 					.then((dateResp) => {
 						console.log('cache response', dateResp);
 						if (postBody['field_member_type:label']) {
@@ -627,7 +614,24 @@ app.post('/autorenewals/:time', (req, res) => {
 					})
 			  });
 		} else {
-			isoRenewalDate = newDate.toISOString().replace('T', ' ').replace('Z', '');
+				var newDate = new Date();
+				console.log({newDate})
+				var year = newDate.getFullYear();
+				var month = newDate.getMonth();
+				var newMonth = month+1;
+				if (newMonth === 13) {
+					var newYear = year+1;
+					var newMonth = 12;
+				} else {
+					var newYear = year;
+				}
+		
+				var day = newDate.getDate();
+				var c = new Date(newMonth+'/'+day+'/'+newYear);
+				var newEnd = c.toISOString()
+				console.log({newEnd});
+				
+				isoRenewalDate = newEnd.toISOString().replace('T', ' ').replace('Z', '');
 		
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
