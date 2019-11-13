@@ -591,7 +591,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				console.log({newMonth, day, year});
 				var c = new Date(newMonth+'/'+day+'/'+year);
 				var newEnd = c.toISOString().replace('T', ' ').replace('Z', '');
-				console.log('zebra ', {newEnd});
+				console.log({newEnd});
 				
 				updateDate(newEnd, entity)
 					.then((dateResp) => {
