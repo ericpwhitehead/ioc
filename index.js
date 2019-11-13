@@ -572,7 +572,7 @@ app.post('/autorenewals/:time', (req, res) => {
 
 		var day = newDate.getDate();
 		var c = new Date(newMonth+'/'+day+'/'+newYear);
-		var newEnd = c.toISOString();
+		var newEnd = c.toISOString().replace('T', ' ').replace('Z', '');
 		console.log({newEnd});
 	}
 		
@@ -751,7 +751,7 @@ app.post('/', (req, res) => {
 						var day = newDate.getDate();
 						var newYear = year+1;
 						var c = new Date(month+'/'+day+'/'+newYear);
-						var newEnd = c.toISOString();
+						var newEnd = c.toISOString().replace('T', ' ').replace('Z', '');
 						console.log(newEnd);
 			      	}
 
