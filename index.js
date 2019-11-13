@@ -627,7 +627,7 @@ app.post('/autorenewals/:time', (req, res) => {
 					})
 			  });
 		} else {
-			isoRenewalDate = newDate.toISOString()
+			isoRenewalDate = newDate.toISOString().replace('T', ' ').replace('Z', '');
 		
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
