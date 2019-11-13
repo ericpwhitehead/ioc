@@ -5,6 +5,7 @@ var bodyParser = require('body-parser')
 var mysql = require('mysql2'),
     url = require('url'),
     SocksConnection = require('socksjs');
+
 const states = [
 	{
 			"name": "Alabama",
@@ -700,8 +701,9 @@ app.post('/', (req, res) => {
 						var c = new Date(month+'/'+day+'/'+newYear);
 						var originalDate = new Date(month+'/'+day+'/'+year)
 						var startDate = originalDate.toISOString();
-						var newEnd = c.toISOString();
+						var newEnd = c.toISOString().replace('T', ' ').replace('Z', '');
 						console.log('new end', newEnd);
+						console.log('new end without miliseconds', newEnd.split('.')[0])
 						console.log('id', postBody.field_infusionsoft_id);
 						return insertUserInfo(rand, postBody, newEnd, startDate)
 					})
