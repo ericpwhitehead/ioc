@@ -618,7 +618,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				console.log({newDate})
 				var year = newDate.getFullYear();
 				var month = newDate.getMonth();
-				var newMonth = month+1;
+				var newMonth = month+2;
 				if (newMonth === 13) {
 					var newYear = year+1;
 					var newMonth = 12;
@@ -631,7 +631,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				var newEnd = c.toISOString()
 				console.log({newEnd});
 				
-				isoRenewalDate = newEnd.toISOString().replace('T', ' ').replace('Z', '');
+				isoRenewalDate = newEnd.replace('T', ' ').replace('Z', '');
 		
 		updateDate(isoRenewalDate, entity)
 					.then((dateResp) => {
