@@ -621,7 +621,7 @@ app.post('/autorenewals/:time', (req, res) => {
 				var newMonth = month+2;
 				if (newMonth === 13) {
 					var newYear = year+1;
-					var newMonth = 12;
+					var newMonth = 1;
 				} else {
 					var newYear = year;
 				}
