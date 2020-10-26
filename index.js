@@ -254,17 +254,6 @@ const countries = [{"name":"Afghanistan","two":"AF","country-code":"004"},{"name
 
 app.use(bodyParser.json());
 
-// var connection = mysql.createConnection({
-//   host: '50.87.137.25',
-//   user: 'iocdevco_eric0',
-//   password: 'brick8',
-//   //database: 'iocdevco_iocdev'
-//   database: 'iocdevco_iocliv'
-// })
-
-// console.log(process.env.FIXIE_URL);
-
-
 var remote_options = {
     host:'70.39.249.13',
     port: 3306
@@ -287,12 +276,9 @@ var sock_options = {
 var sockConn = new SocksConnection(remote_options, sock_options);
 
 var dbConnection = mysql.createConnection({
-	//user: 'iocdevco_eric0',
-	user: 'instit51_infusionsoft_post',
-	//database: 'iocdevco_iocdev',
+	user: process.env.dbuser,
 	database: 'instit51_iocdev',
-	//password: 'brick8',
-	password: 'm!.KQ[4EWP_B',
+	password: process.env.dbpw,
     stream: sockConn
 });
 
@@ -303,7 +289,7 @@ app.get('/', (req, res) => {
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
-
+clearCache('71913')
 function clearCache(id) {
 	console.log('entity id passed from first query', id)
 	var myPromise = new Promise(function(resolve, reject){
@@ -677,7 +663,6 @@ app.post('/', (req, res) => {
 		var rightNow = Date.now();
 		var firstName = postBody.field_infusionsoft_id;
 
-		// password1ioc
 		//var values = [rand, postBody.name, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', rightNow, 1, postBody.mail]
 		var values = [rand, postBody.mail, '$S$D26haBLqyyr4d5lvfmWMyjDH6Can/no3t1tsREuiHnXUzGbJdNnn', postBody.mail, 'filtered_html', Number((rightNow).toString().substring(0, 10)), 1, postBody.mail]
 		console.log('values', values);
