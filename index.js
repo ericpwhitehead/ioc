@@ -539,6 +539,7 @@ app.post('/update', (req, res) => {
 						})
 		 })
 })
+
 //renewal/lapsed
 app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
@@ -645,7 +646,6 @@ app.post('/autorenewals/:time', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-
 	var postBody = req.body;
 
 	var len = Object.keys(postBody).length;
@@ -785,7 +785,10 @@ app.post('/', (req, res) => {
 	}
 });
 
-
+app.post('/register', (req, res) => {
+    console.log('request body: ', req.body);
+    res.json({msg: 'got it'});
+})
 
 app.listen(process.env.PORT || 3001, () => console.log('listening on '+ process.env.PORT))
 
