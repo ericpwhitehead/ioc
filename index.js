@@ -543,7 +543,7 @@ app.post('/update', (req, res) => {
 
 //cancel
 app.post('/cancel', (req, res) => {
-	console.log('cancel: ' req.body)
+	console.log('cancel: ', req.body)
 	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
 		if (err) throw err
 		console.log('users uid: ', result[0].uid);
