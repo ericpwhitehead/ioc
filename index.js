@@ -556,6 +556,7 @@ app.post('/cancel', (req, res) => {
 			})
 			.then(clearCacheResp => {
 				console.log({clearCacheResp})
+				res.json({msg: "it works"});
 			})
 			.catch(cancelErr => {
 				console.log({cancelErr})
