@@ -289,7 +289,8 @@ app.get('/', (req, res) => {
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
-clearCache('71913')
+// clearCache('71913')
+
 function clearCache(id) {
 	console.log('entity id passed from first query', id)
 	var myPromise = new Promise(function(resolve, reject){
@@ -540,6 +541,28 @@ app.post('/update', (req, res) => {
 		 })
 })
 
+//cancel
+app.post('/cancel', (req, res) => {
+	console.log('cancel: ' req.body)
+	dbConnection.query('SELECT * FROM `users` WHERE mail = ?',[req.body.mail], function(err, result) {
+		if (err) throw err
+		console.log('users uid: ', result[0].uid);
+		var entity = result[0].uid;
+		console.log({entity})
+		updateStatus(entity, 0)
+			.then((updateStatusResp) => {
+				console.log({updateStatusResp})
+				return clearCache(entity)
+			})
+			.then(clearCacheResp => {
+				console.log({clearCacheResp})
+			})
+			.catch(cancelErr => {
+				console.log({cancelErr})
+			})
+	})
+		
+})
 //renewal/lapsed
 app.post('/autorenewals/:time', (req, res) => {
 	console.log(req.body);
