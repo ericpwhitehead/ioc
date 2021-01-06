@@ -400,8 +400,15 @@ function updateRole(userId, role) {
 		dbConnection.query('INSERT into `users_roles` (uid, rid) VALUES (?,?);', [userId, role], function (err, roleResponse) {
 			if (err) reject(err);
 			console.log('roleResponse', roleResponse);
+			if (role == 8) {
+				dbConnection.query('DELETE FROM `users_roles` WHERE uid = ? and rid = 5;', [userId, role], function (err, roleResponse2) {
+					if (err) reject(err);
+					console.log('removing old Role: ', roleResponse2);
+				});
+			}
 			resolve(roleResponse);
 		});
+		
 	});
 	return myPromise;
 }
